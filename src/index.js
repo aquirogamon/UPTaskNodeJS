@@ -74,8 +74,8 @@ app.use((req, res, next) => {
 app.use('/', routes());
 
 // Escucha el puerto
-const host = process.env.SERVER_HOST || '0.0.0.0';
-const port = process.env.SERVER_PORT || 3000;
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
 
 app.listen(port, host, () => {
   console.log(`El servidor está corriendo en el puerto ${port}`);
