@@ -1,0 +1,54 @@
+extends layout
+
+block contenido
+  .contenido-principal
+    h1 #{nombrePagina} - #{proyecto.nombre}
+    if tarea.estado
+      h2#estadotarea(data-estadotarea="1") #{tareaPagina} - #{tarea.nombre}
+    else
+      h2#estadotarea(data-estadotarea="0") #{tareaPagina} - #{tarea.nombre}
+    h2 Ingeniero Asignado:
+    if usuarioPrincipal.length
+      h3 Ing: #{usuarioPrincipal[0].nombre}
+    else
+      h3 Por asignar
+
+    form.agregar-tarea(action=`/proyecto/${proyecto.url}/${tarea.url_tarea}` method="POST")
+      .campo
+        label(for="nombre") Nombre de la SubTarea:
+        input.nombre-tarea(type="text" name="nombre" placeholder="Nombre SubTarea")
+      .campo
+        label(for='time_end') Fecha Fin de SubTarea:
+        input(value=fecha_fin type='date' id='time_end' name='time_end' placeholder='Fecha Fin de SubTarea')
+      .campo.enviar
+        input.boton.nueva-tarea(type="submit" value="Agregar")
+
+    // TODO - Listado de Pendientes
+    .listado-pendientes#listado-pendientes-subtareas
+      ul#idtarea(data-idtarea=tarea.id)
+        if subtareas.length
+          each subtarea in subtareas
+            li.subtarea(data-subtarea=subtarea.id)
+              a #{subtarea.nombre} (#{subtarea.observaciones})
+              .acciones
+                if subtarea.estado
+                  i.acciones-icono.fas.fa-check-circle.completo(data-pesosubtarea=subtarea.peso)
+                else
+                  i.acciones-icono.fas.fa-check-circle(data-pesosubtarea=subtarea.peso)
+                a(href=`/proyecto/tarea/subtarea/editar/${subtarea.id}`)
+                  i.acciones-icono.fas.fa-edit
+                i.acciones-icono.fas.fa-trash
+        else
+          p No hay subtareas en este proyecto
+
+    // Avance de la Tarea
+    .avance
+      h2#porcentaje-texto.porcentaje-texto Avance de la Tarea
+      #barra-avance.barra-avance
+        #porcentaje.porcentaje
+
+
+    .contenedor-acciones
+      a(href=`/proyecto/tarea/editar/${tarea.id}` class="boton") Editar Tarea
+      button#eliminar-proyecto(data-proyecto-url=proyecto.url type="button" class="boton eliminar") Eliminar Tarea
+      a(href=`/proyecto/${proyecto.url}` class="boton") Volver

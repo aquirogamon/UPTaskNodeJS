@@ -1,0 +1,30 @@
+extends layout
+
+block contenido
+  .contenido-principal
+    h1 #{nombrePagina}
+
+    h2 Proyecto: #{proyecto.nombre}
+    h2 Tarea: #{tarea.nombre}
+
+    if errores
+      each error in errores
+        .alerta.error= error.texto
+
+    form.agregar-proyecto(action=`/proyecto/tarea/subtarea/${subtarea.id}` method="POST")
+      .campo
+        label(for='nombre') Nombre de la Tarea:
+        input(value= subtarea.nombre type='text' id='nombre' name='nombre' placeholder='Nombre de SubTarea')
+      .campo
+        label(for='observaciones') Observaciones:
+        input(value= subtarea.observaciones type='text' id='observaciones' name='observaciones' placeholder='Ingrese sus Obs.')
+      .campo
+        label(for='time_begin') Fecha Inicio de la SubTarea:
+        input(value= fecha_inicio type='date' id='time_begin' name='time_begin' placeholder='Fecha Inicio de la SubTarea')
+      .campo
+        label(for='time_end') Fecha Fin de la SubTarea:
+        input(value= fecha_fin type='date' id='time_end' name='time_end' placeholder='Fecha Fin del SubTarea')
+      .campo.enviar
+        input(type='submit' value='Guardar' class='boton')
+      .campo.enviar
+        a(href=`/proyecto/${proyecto.url}/${tarea.url_tarea}` class="boton") Volver

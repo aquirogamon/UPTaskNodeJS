@@ -1,0 +1,44 @@
+extends layout
+
+block contenido
+  .contenido-principal
+    h1 #{nombrePagina} Pendientes
+
+    if tareasByFalse
+      each prioridad in prioridadFalse
+        h2.prioridad Prioridad - #{prioridad}
+        .listadoPendientes#listado-tareas
+          ul
+            each tarea in tareasByFalse[prioridad]
+              li.tarea(data-tarea=tarea.id)
+                a(href=`/proyecto/${tarea.proyecto.url}/${tarea.url_tarea}`) #{tarea.nombre}
+                  small  (SubTareas: #{tarea.cantidadSubTareas})
+                .acciones
+                  if tarea.estado
+                    i.acciones-icono.fas.fa-check-circle.completo
+                  else
+                    i.acciones-icono.fas.fa-check-circle
+                  i.acciones-icono.fas.fa-trash
+              small Proyecto: #{tarea.nombreProyecto}
+              p
+    else
+      p.listadoPendientes No hay tareas Pendientes
+
+    h1.listadoCompletadas #{nombrePagina} Completadas
+    .listadoPendientes.listado-completadas#listado-tareas
+      ul
+        if tareasByTrue
+          each prioridad in prioridadTrue
+            each tarea in tareasByTrue[prioridad]
+              li.tarea(data-tarea=tarea.id)
+                a(href=`/proyecto/${tarea.proyecto.url}/${tarea.url_tarea}`)= tarea.nombre
+                .acciones
+                  if tarea.estado
+                    i.acciones-icono.fas.fa-check-circle.completo
+                  else
+                    i.acciones-icono.fas.fa-check-circle
+                  i.acciones-icono.fas.fa-trash
+              small Proyecto: #{tarea.nombreProyecto}
+              p
+        else
+          p No hay tareas Completadas

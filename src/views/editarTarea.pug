@@ -1,0 +1,47 @@
+extends layout
+
+block contenido
+  .contenido-principal
+    h1 #{nombrePagina}
+
+    h2 Proyecto: #{proyecto.nombre}
+
+    if errores
+      each error in errores
+        .alerta.error= error.texto
+
+    form.agregar-proyecto(action=`/proyecto/tarea/${tarea.id}` method="POST")
+      .campo
+        label(for='nombre') Nombre de la Tarea:
+        input(value= tarea.nombre type='text' id='nombre' name='nombre' placeholder='Nombre Tarea')
+      .campo
+        label(for='tipo') Prioridad:
+        input(value= tarea.prioridad type='number' id='prioridad' name='prioridad' placeholder='Prioridad de la Tarea')
+      .campo
+        label(for='time_begin') Fecha Inicio de la Tarea:
+        input(value= fecha_inicio type='date' id='time_begin' name='time_begin' placeholder='Fecha Inicio de la Tarea')
+      .campo
+        label(for='time_end') Fecha Fin de la Tarea:
+        input(value= fecha_fin type='date' id='time_end' name='time_end' placeholder='Fecha Fin de la Tarea')
+      .campo
+        label(for='ingeniero_principal') Ingeniero de la Tarea:
+        select(name='ingeniero_principal')
+          option(disabled='' selected='') Seleccione al 1er Ingeniero
+          each usuario in usuarios
+            if(usuarioPrincipal.length)
+              option(value= usuario.id, selected=usuarioPrincipal[0].id == usuario.id ? true : false) #{usuario.nombre}
+            else
+              option(value= usuario.id) #{usuario.nombre}
+      .campo
+        label(for='ingeniero_secundario') Ingeniero de la Tarea (BackUP):
+        select(name='ingeniero_secundario')
+          option(disabled='' selected='') Seleccione al 2do Ingeniero
+          each usuario in usuarios
+            if (usuarioRespaldo.length == 2)
+              option(value= usuario.id, selected=usuarioRespaldo[1].id == usuario.id ? true : false) #{usuario.nombre}
+            else
+              option(value= usuario.id) #{usuario.nombre}
+      .campo.enviar
+        input(type='submit' value='Guardar' class='boton')
+      .campo.enviar
+        a(href=`/proyecto/${proyecto.url}` class="boton") Volver

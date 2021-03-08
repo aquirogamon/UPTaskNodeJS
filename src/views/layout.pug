@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    include partials/header
+    title= nombrePagina
+  body
+    header.barra
+      h1 UpTask - Administrador de Proyectos
+      div
+        a(href="/lista-tareas") Avance de Proyectos
+        a(href="/lista-tareas") Lista de Tareas
+        a(href="/cerrar-sesion") Cerrar Sesión
+
+    main.contenedor
+      aside.contenedor-proyectos
+        .panel.crear-proyecto
+          a(href="/nuevo-proyecto" class="boton") Nuevo_Proyecto
+            span +
+        .panel.lista-proyectos
+          h2 Proyectos
+          h3 En Proceso
+          ul#proyectosByFalse.proyectos
+            if proyectosByFalse
+              each year in yearsFalse
+                p=year
+                  each proyecto in proyectosByFalse[year]
+                    li
+                      a(href=`/proyecto/${proyecto.url}`)= proyecto.nombre
+            else
+              p No hay proyectos en Proceso
+          h3 Finalizado
+          ul#proyectosByTrue.proyectos
+            if proyectosByTrue
+              each year in yearsTrue
+                p=year
+                  each proyecto in proyectosByTrue[year]
+                    li
+                      a(href=`/proyecto/${proyecto.url}`)= proyecto.nombre
+            else
+              p No hay proyectos Finalizados
+
+      block contenido
+    script(src="/dist/bundle.js")

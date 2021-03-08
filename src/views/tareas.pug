@@ -1,0 +1,69 @@
+extends layout
+
+block contenido
+  .contenido-principal
+    if proyecto.estado
+      h1#estadoproyecto(data-estadoproyecto="1") #{nombrePagina} - #{proyecto.nombre}
+    else
+      h1#estadoproyecto(data-estadoproyecto="0") #{nombrePagina} - #{proyecto.nombre}
+    h2 Ingenieros Asignados:
+    if usuarioPrincipal.length
+      h3 Ing: #{usuarioPrincipal[0].nombre}
+    else
+      h3 Por asignar
+    if usuarioRespaldo.length == 2
+      h3 Ing: #{usuarioRespaldo[1].nombre}
+    else
+      h3 Por asignar
+    h2 Inicio: #{fecha_inicio} <> Fin: #{fecha_fin}
+
+    form.agregar-tarea(action=`/proyecto/${proyecto.url}` method="POST")
+      .campo
+        label(for="nombre") Nombre de la Tarea:
+        input.nombre-tarea(type="text" name="nombre" placeholder="Nombre Tarea")
+      .campo
+        label(for='ingeniero_principal') Ingeniero de la Tarea:
+        select(name='ingeniero_principal')
+          option(disabled='' selected='') Seleccione al 1er Ingeniero
+          each usuario in usuarios
+            if(usuarioPrincipal.length)
+              option(value= usuario.id, selected=usuarioPrincipal[0].id == usuario.id ? true : false) #{usuario.nombre}
+            else
+              option(value= usuario.id) #{usuario.nombre}
+      .campo
+        label(for='time_begin') Fecha Inicio de la Tarea:
+        input(value=fecha_inicio type='date' id='time_begin' name='time_begin' placeholder='Fecha Inicio de la Tarea')
+      .campo
+        label(for='time_end') Fecha Fin de la Tarea:
+        input(value=fecha_fin type='date' id='time_end' name='time_end' placeholder='Fecha Fin de la Tarea')
+      .campo.enviar
+        input.boton.nueva-tarea(type="submit" value="Agregar")
+
+    // TODO - Listado de Pendientes
+
+    .listado-pendientes#listado-pendientes-tareas
+      ul#idproyecto(data-idproyecto=proyecto.id)
+        if tareas.length
+          each tarea in tareas
+            li.tarea(data-tarea=tarea.id)
+              a(href=`/proyecto/${proyecto.url}/${tarea.url_tarea}`)= tarea.nombre
+              .acciones
+                if tarea.estado
+                  i.acciones-icono.fas.fa-check-circle.completo
+                else
+                  i.acciones-icono.fas.fa-check-circle
+                i.acciones-icono.fas.fa-trash
+        else
+          p No hay tareas en este proyecto
+
+    // Avance del Proyecto
+    .avance
+      h2#porcentaje-texto.porcentaje-texto Avance del Proyecto
+      #barra-avance.barra-avance
+        #porcentaje.porcentaje
+
+    // Acciones que se pueden realizar
+
+    .contenedor-acciones
+      a(href=`/proyecto/editar/${proyecto.id}` class="boton") Editar Proyecto
+      button#eliminar-proyecto(data-proyecto-url=proyecto.url type="button" class="boton eliminar") Eliminar Proyecto
