@@ -17,3 +17,7 @@ Editar Tarea. Autocompletar en caso de errores.
 Editar SubTarea. Autocompletar en caso de errores.
 Dar seguridad a los formularios. body('nombre').not().isEmpty().trim().escape()
 Lista de Tareas por Usuario. Revisar una mejor forma de imprimirlo.
+Agregar Dashboard para graficas de tiempo del proyecto, asignacion de tiempos a los ingenieros.
+Actualizar panel de Tareas para que se pueda cambiar las prioridades y mover las tareas segun prioridades.
+Actualizar panel de Tareas para que se pueda cambiar el STATUS y mover las tareas segun status.
+Exportar en un reporte PDF el STATUS de cada Proyecto o de los Proyectos segun necesidad.
