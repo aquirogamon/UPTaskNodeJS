@@ -8,7 +8,7 @@ mixin crearProyecto(proyecto = {})
       select(name='tipo')
         option(disabled='' selected='') Seleccione el Tipo de Proyecto
         each tipo in tipos
-          option(value= tipo.id, selected=proyecto.tipoId == tipo.id ? true : false) #{tipo.nombre}
+          option(value= tipo.id, selected=proyecto.tipoproyectoId == tipo.id ? true : false) #{tipo.nombre}
     .campo
       label(for='ingeniero_principal') Ingeniero del Proyecto:
       select(name='ingeniero_principal')

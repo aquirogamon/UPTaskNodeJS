@@ -9,13 +9,14 @@
 - Editar Tarea. Autocompletar en caso de errores.
 - Editar SubTarea. Autocompletar en caso de errores.
 - Lista de Tareas por Usuario. Revisar una mejor forma de imprimirlo.
+- El proyecto debe tener la fecha fin más alejada de una Tarea.
+- La Tarea debe tener la fecha fin más alejada de una SubTarea.
 
 ## En Proceso
 
+- Revisar si es mejor Actualizar el modelo de usuarios - proyectos y usuarios - tareas
 - Agregar dependencias.
 - Si la Tareas la completas automáticamente las SubTareas pasan a completas.
-- El proyecto debe tener la fecha fin más alejada de una Tarea.
-- La Tarea debe tener la fecha fin más alejada de una SubTarea.
 - Dar seguridad a los formularios. body('nombre').not().isEmpty().trim().escape()
 - Agregar Dashboard para graficas de tiempo del proyecto, asignacion de tiempos a los ingenieros.
 - Actualizar panel de Tareas para que se pueda cambiar las prioridades y mover las tareas segun prioridades.

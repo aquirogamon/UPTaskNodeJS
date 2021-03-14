@@ -119,7 +119,7 @@ exports.nuevoProyecto = async (req, res) => {
         const proyecto = await Proyectos.create({
             nombre,
             descripcion,
-            tipoId: tipo,
+            tipoproyectoId: tipo,
             time_begin,
             time_end
         });
@@ -205,7 +205,7 @@ exports.proyectoPorUrl = async (req, res, next) => {
 exports.formularioEditar = async (req, res) => {
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
-    const tiposPromise = Tipos.findAll();
+    const tiposPromise = TipoProyectos.findAll();
     const proyectoPromise = Proyectos.findOne({
         where: {
             id: req.params.id
@@ -289,7 +289,7 @@ exports.actualizarProyecto = async (req, res) => {
         const proyectoDB = await Proyectos.update({
             nombre,
             descripcion,
-            tipoId: tipo,
+            tipoproyectoId: tipo,
             time_begin,
             time_end
         }, {

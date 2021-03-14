@@ -2,6 +2,9 @@ const Proyectos = require("../model/Proyectos");
 const Tareas = require("../model/Tareas");
 const SubTareas = require("../model/SubTareas");
 const Usuarios = require("../model/Usuarios");
+const TipoProyectos = require('../model/TipoProyectos')
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 var _ = require("lodash");
 const { nest } = require("../libs/funciones");
 require("../config/asociations");
@@ -38,9 +41,44 @@ exports.listaTareas = async (req, res) => {
         usuario: usuarioAd,
       },
     });
+    var tipoProyectos = await TipoProyectos.findAll({
+      where: {
+        usuario: usuarioAd,
+      },
+      attributes: ["id"]
+    });
   }
-  const proyectos = await Proyectos.findAll();
-  const tareasUsuario = await Usuarios.findByPk(usuario.id, {
+  if (usuario.role === 3) {
+    arrayTipoProyectos = [];
+    tipoProyectos.forEach((tipoproyecto) => {
+      arrayTipoProyectos.push(tipoproyecto.id)
+    })
+    var tareasJefe = await Proyectos.findAll({
+      where: {
+        tipoproyectoId: {
+          [Op.or]: arrayTipoProyectos
+        }
+      },
+      include: {
+        model: Tareas,
+        as: "tareas",
+        attributes: ["id", "nombre", "estado", "url_tarea", "prioridad"],
+        include: {
+          model: Proyectos,
+          attributes: ["id", "nombre", "estado", "url"],
+        },
+      },
+    })
+    tareasUsuario = [];
+    for (let i = 0; i < tareasJefe.length; i++) {
+      let tareasProyecto = tareasJefe[i].tareas;
+      for (let e = 0; e < tareasProyecto.length; e++) {
+        tareasUsuario.push(tareasProyecto[e])
+      }
+    }
+    var listaTareas = tareasUsuario;
+  } else {
+  var tareasUsuario = await Usuarios.findByPk(usuario.id, {
     include: [
       {
         model: Tareas,
@@ -56,20 +94,23 @@ exports.listaTareas = async (req, res) => {
       },
     ],
   });
+  var listaTareas = tareasUsuario.tareas;
+  }
+  const proyectos = await Proyectos.findAll();
   const { tareas } = tareasUsuario;
 
-  for (let index = 0; index < tareas.length; index++) {
-    tareas[index].nombreProyecto = tareas[index].proyecto.nombre;
-    tareas[index].idProyecto = tareas[index].proyecto.id;
+  for (let index = 0; index < listaTareas.length; index++) {
+    listaTareas[index].nombreProyecto = listaTareas[index].proyecto.nombre;
+    listaTareas[index].idProyecto = listaTareas[index].proyecto.id;
     const totalSubTareas = await SubTareas.findAndCountAll({
       where: {
-        tareaId: tareas[index].id,
+        tareaId: listaTareas[index].id,
       },
     });
-    tareas[index].cantidadSubTareas = totalSubTareas.count;
+    listaTareas[index].cantidadSubTareas = totalSubTareas.count;
   }
 
-  const groupByEstadoTarea = nest(tareas, ["estado", "prioridad"]);
+  const groupByEstadoTarea = nest(listaTareas, ["estado", "prioridad"]);
   const tareasByTrue = groupByEstadoTarea[true];
   const tareasByFalse = groupByEstadoTarea[false];
   if (tareasByTrue) {
@@ -110,40 +151,65 @@ exports.diagramaGanttData = async (req, res) => {
         usuario: usuarioAd,
       },
     });
+    var tipoProyectos = await TipoProyectos.findAll({
+      where: {
+        usuario: usuarioAd,
+      },
+      attributes: ["id"]
+    });
   }
-  const proyectosUsuario = await Usuarios.findByPk(usuario.id, {
-    include: [
-      {
-        model: Proyectos,
-        as: "proyectos",
-        attributes: [
-          "id",
-          "nombre",
-          "estado",
-          "avance",
-          "time_begin",
-          "time_end",
-        ],
-        through: {
-          attributes: [],
-        },
+  if (usuario.role === 3) {
+    arrayTipoProyectos = [];
+    tipoProyectos.forEach((tipoproyecto) => {
+      arrayTipoProyectos.push(tipoproyecto.id)
+    })
+    var proyectosJefe = await Proyectos.findAll({
+      where: {
+        tipoproyectoId: {
+          [Op.or]: arrayTipoProyectos
+        }
+      },
+      include: {
+        model: Tareas,
         include: {
-          model: Tareas,
-          include: {
-            model: SubTareas,
-          },
+          model: SubTareas,
         },
       },
-    ],
-  });
+    })
+    proyectosUsuario = proyectosJefe;
+  } else {
+    var proyectosUsuarioDB = await Usuarios.findByPk(usuario.id, {
+      include: [
+        {
+          model: Proyectos,
+          as: "proyectos",
+          attributes: [
+            "id",
+            "nombre",
+            "estado",
+            "avance",
+            "time_begin",
+            "time_end",
+          ],
+          through: {
+            attributes: [],
+          },
+          include: {
+            model: Tareas,
+            include: {
+              model: SubTareas,
+            },
+          },
+        },
+      ],
+    });
+    proyectosUsuario = proyectosUsuarioDB.proyectos
+  }
 
   let listaProyectos = [];
-  const proyectosALL = proyectosUsuario.proyectos;
+  const proyectosALL = proyectosUsuario;
+  console.log('proyectosALL: ', proyectosALL)
   proyectosALL.forEach((proyecto) => {
-    console.log('Proyecto: ', proyecto.nombre)
-    console.log('Fecha Inicio: ', proyecto.time_begin)
-    console.log('Fecha Fin: ', proyecto.time_end)
-    console.log('Duración: ', Math.abs(proyecto.time_end - proyecto.time_begin) / (1000 * 60 * 60 * 24))
     let items = {
       id: `p_${proyecto.id}`,
       text: proyecto.nombre,

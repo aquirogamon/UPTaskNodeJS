@@ -234,6 +234,10 @@ exports.actualizarTarea = async (req, res) => {
     const {
       usuarios
     } = tarea;
+    TODO:
+    /*
+      Se tiene un BUX con las asignaciones de usuarios a Tareas y Proyectos.
+    */
     usuarios.forEach(async usuario => {
       await usuario.removeTareas(tarea);
     });
