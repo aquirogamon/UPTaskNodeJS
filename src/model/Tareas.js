@@ -20,6 +20,11 @@ const Tareas = db.define('tareas', {
     allowNull: false,
     defaultValue: false
   },
+  avance: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+    defaultValue: 0
+  },
   time_begin: {
     type: Sequelize.DATE,
     allowNull: false,

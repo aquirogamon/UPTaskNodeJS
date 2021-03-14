@@ -27,17 +27,23 @@ export const actualizarAvance = () => {
         });
       }
       // Calcular el avance
-      const avance = Math.round((subtareasCompletasLength / subTareasLength) * 100)
+      const avanceTarea = Math.round((subtareasCompletasLength / subTareasLength) * 100)
+      const idTarea_avance = tarea[0].dataset.idtarea;
+      const url_avance = `${location.origin}/tarea/avance/${idTarea_avance}/${avanceTarea}`
+      axios.patch(url_avance, {
+        idTarea_avance,
+        avanceTarea
+      })
 
       // Monstrar el avance
       const porcentaje = document.querySelector('#porcentaje');
-      porcentaje.style.width = `${avance}%`;
+      porcentaje.style.width = `${avanceTarea}%`;
 
       const porcentajeTexto = document.querySelector('#porcentaje-texto');
-      porcentajeTexto.innerHTML = `<h2>Avance de la Tarea: ${avance}%</h2>`
+      porcentajeTexto.innerHTML = `<h2>Avance de la Tarea: ${avanceTarea}%</h2>`
 
       let estadoActualTarea = estadotarea.dataset.estadotarea;
-      if (avance === 100 && estadoActualTarea == 0) {
+      if (avanceTarea === 100 && estadoActualTarea == 0) {
         const idTarea = tarea[0].dataset.idtarea;
         const url = `${location.origin}/tarea/${idTarea}`
         axios.patch(url, {
@@ -49,7 +55,7 @@ export const actualizarAvance = () => {
           }
         })
       }
-      if (avance !== 100 && estadoActualTarea == 1) {
+      if (avanceTarea !== 100 && estadoActualTarea == 1) {
         const idTarea = tarea[0].dataset.idtarea;
         const url = `${location.origin}/tarea/${idTarea}`;
         axios.patch(url, {
@@ -72,6 +78,12 @@ export const actualizarAvance = () => {
 
       // calcular el avance
       const avanceProyecto = Math.round((tareasCompletas.length / tareas.length) * 100);
+      const idProyecto_avance = proyecto[0].dataset.idproyecto;
+      const url_avance = `${location.origin}/proyecto/avance/${idProyecto_avance}/${avanceProyecto}`
+      axios.patch(url_avance, {
+        idProyecto_avance,
+        avanceProyecto
+      })
 
       // mostrar el avance
       const porcentaje = document.querySelector('#porcentaje');

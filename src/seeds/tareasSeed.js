@@ -1,271 +1,110 @@
-exports.tareas = [{
-  tarea: "t1-Proyecto1",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-proyecto1-Kkbqfn7cJ",
-  proyecto_id: "1"
-}, {
-  tarea: "t2-Proyecto1",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-proyecto1-Kkbqfn7cJ",
-  proyecto_id: "1"
-}, {
-  tarea: "t3-Proyecto1",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-proyecto1-Kkbqfn7cJ",
-  proyecto_id: "1"
-}, {
-  tarea: "t1-Proyecto2",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto2-Kkbqfn7cJ",
-  proyecto_id: 2
-}, {
-  tarea: "t2-Proyecto2",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto2-Kkbqfn7cJ",
-  proyecto_id: 2
-}, {
-  tarea: "t3-Proyecto2",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto2-Kkbqfn7cJ",
-  proyecto_id: 2
-}, {
-  tarea: "t1-Proyecto3",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto3-Kkbqfn7cJ",
-  proyecto_id: 3
-}, {
-  tarea: "t2-Proyecto3",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto3-Kkbqfn7cJ",
-  proyecto_id: 3
-}, {
-  tarea: "t3-Proyecto3",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto3-Kkbqfn7cJ",
-  proyecto_id: 3
-}, {
-  tarea: "t1-Proyecto4",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto4-Kkbqfn7cJ",
-  proyecto_id: 4
-}, {
-  tarea: "t2-Proyecto4",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto4-Kkbqfn7cJ",
-  proyecto_id: 4
-}, {
-  tarea: "t3-Proyecto4",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto4-Kkbqfn7cJ",
-  proyecto_id: 4
-}, {
-  tarea: "t1-Proyecto5",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto5-Kkbqfn7cJ",
-  proyecto_id: 5
-}, {
-  tarea: "t2-Proyecto5",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto5-Kkbqfn7cJ",
-  proyecto_id: 5
-}, {
-  tarea: "t3-Proyecto5",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto5-Kkbqfn7cJ",
-  proyecto_id: 5
-}, {
-  tarea: "t1-Proyecto6",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto6-Kkbqfn7cJ",
-  proyecto_id: 6
-}, {
-  tarea: "t2-Proyecto6",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto6-Kkbqfn7cJ",
-  proyecto_id: 6
-}, {
-  tarea: "t3-Proyecto6",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto6-Kkbqfn7cJ",
-  proyecto_id: 6
-}, {
-  tarea: "t1-Proyecto7",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto7-Kkbqfn7cJ",
-  proyecto_id: 7
-}, {
-  tarea: "t2-Proyecto7",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto7-Kkbqfn7cJ",
-  proyecto_id: 7
-}, {
-  tarea: "t3-Proyecto7",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto7-Kkbqfn7cJ",
-  proyecto_id: 7
-}, {
-  tarea: "t1-Proyecto8",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto8-Kkbqfn7cJ",
-  proyecto_id: 8
-}, {
-  tarea: "t2-Proyecto8",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto8-Kkbqfn7cJ",
-  proyecto_id: 8
-}, {
-  tarea: "t3-Proyecto8",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto8-Kkbqfn7cJ",
-  proyecto_id: 8
-}, {
-  tarea: "t1-Proyecto9",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto9-Kkbqfn7cJ",
-  proyecto_id: 9
-}, {
-  tarea: "t2-Proyecto9",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto9-Kkbqfn7cJ",
-  proyecto_id: 9
-}, {
-  tarea: "t3-Proyecto9",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto9-Kkbqfn7cJ",
-  proyecto_id: 9
-}, {
-  tarea: "t1-Proyecto10",
-  estado: false,
-  ingeniero_principal: "Ingeniero 1",
-  ingeniero_secundario: "Ingeniero 3",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t1-Proyecto10-Kkbqfn7cJ",
-  proyecto_id: 10
-}, {
-  tarea: "t2-Proyecto10",
-  estado: false,
-  ingeniero_principal: "Ingeniero 2",
-  ingeniero_secundario: "Ingeniero 1",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t2-Proyecto10-Kkbqfn7cJ",
-  proyecto_id: 10
-}, {
-  tarea: "t3-Proyecto10",
-  estado: false,
-  ingeniero_principal: "Ingeniero 3",
-  ingeniero_secundario: "Ingeniero 2",
-  time_begin: "2019-03-31 02:06:29",
-  time_end: "2019-03-31 02:06:29",
-  url_tarea: "t3-Proyecto10-Kkbqfn7cJ",
-  proyecto_id: 10
-}]
+exports.tareas = [
+  {
+    "id": 1,
+    "nombre": "Habilitación de pares de Hilos de FO",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-02-16 19:00:00",
+    "time_end": "2021-03-16 19:00:00",
+    "url_tarea": "habilitacion-de-pares-de-hilos-de-fo-PET7sanZH",
+    "prioridad": "3",
+    "createdAt": "2021-02-17 21:07:25",
+    "updatedAt": "2021-02-21 12:04:37",
+    "proyectoId": 1
+  },
+  {
+    "id": 2,
+    "nombre": "Habilitar enlace físico de 100G",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-03-17 19:00:00",
+    "time_end": "2021-04-16 19:00:00",
+    "url_tarea": "habilitar-enlace-fisico-de-100g-GmfStXDZD",
+    "prioridad": "2",
+    "createdAt": "2021-02-17 21:07:40",
+    "updatedAt": "2021-02-21 12:04:34",
+    "proyectoId": 1
+  },
+  {
+    "id": 3,
+    "nombre": "Intercambio de prefijos con StackPath",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-04-15 19:00:00",
+    "time_end": "2021-05-16 19:00:00",
+    "url_tarea": "intercambio-de-prefijos-con-stackpath-V7dhILghZ",
+    "prioridad": "2",
+    "createdAt": "2021-02-17 21:08:02",
+    "updatedAt": "2021-02-21 12:04:36",
+    "proyectoId": 1
+  },
+  {
+    "id": 4,
+    "nombre": "Puesta en Operación del enlace con StackPath",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-05-16 19:00:00",
+    "time_end": "2021-05-20 19:00:00",
+    "url_tarea": "puesta-en-operacion-del-enlace-con-stackpath-KkqEQ7IOo",
+    "prioridad": "3",
+    "createdAt": "2021-02-17 21:08:28",
+    "updatedAt": "2021-02-21 22:27:48",
+    "proyectoId": 1
+  },
+  {
+    "id": 5,
+    "nombre": "Generación de OC",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-02-15 19:00:00",
+    "time_end": "2021-03-15 19:00:00",
+    "url_tarea": "generacion-de-oc-wNK5_07zI",
+    "prioridad": "2",
+    "createdAt": "2021-02-17 21:10:40",
+    "updatedAt": "2021-02-20 19:53:32",
+    "proyectoId": 2
+  },
+  {
+    "id": 6,
+    "nombre": "Plan de implentación",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-03-15 19:00:00",
+    "time_end": "2021-04-15 19:00:00",
+    "url_tarea": "plan-de-implentacion-7hTLLXEpf",
+    "prioridad": "2",
+    "createdAt": "2021-02-17 21:12:09",
+    "updatedAt": "2021-02-18 23:15:23",
+    "proyectoId": 2
+  },
+  {
+    "id": 7,
+    "nombre": "Seguimiento de Tareas",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-04-16 19:00:00",
+    "time_end": "2021-05-16 19:00:00",
+    "url_tarea": "seguimiento-de-tareas-1VUgkKvIn",
+    "prioridad": "3",
+    "createdAt": "2021-02-17 23:48:58",
+    "updatedAt": "2021-02-18 23:15:24",
+    "proyectoId": 2
+  },
+  {
+    "id": 8,
+    "nombre": "Implementación de Nogales",
+    "estado": 1, "avance": 0,
+    "time_begin": "2021-02-18 19:00:00",
+    "time_end": "2021-03-18 19:00:00",
+    "url_tarea": "implementacion-de-nogales-Wd7jipRcY",
+    "prioridad": "3",
+    "createdAt": "2021-02-19 11:08:25",
+    "updatedAt": "2021-02-21 22:29:33",
+    "proyectoId": 3
+  },
+  {
+    "id": 9,
+    "nombre": "Implementación de SanVicente de Cañete",
+    "estado": 0, "avance": 0,
+    "time_begin": "2021-03-19 11:08:40",
+    "time_end": "2021-04-19 11:08:40",
+    "url_tarea": "implementacion-de-sanvicente-de-canete-DaQfbeidF",
+    "prioridad": "3",
+    "createdAt": "2021-02-19 11:08:40",
+    "updatedAt": "2021-02-21 22:27:54",
+    "proyectoId": 3
+  }
+]

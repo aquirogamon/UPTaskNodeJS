@@ -1,8 +1,11 @@
 const Proyectos = require('../model/Proyectos');
 const Tareas = require('../model/Tareas');
+const SubTareas = require('../model/SubTareas');
 const Usuarios = require('../model/Usuarios');
-const Tipos = require('../model/Tipos');
+const TipoProyectos = require('../model/TipoProyectos');
 var _ = require('lodash');
+require("date-format-lite");
+
 const {
     formatDate,
     nest
@@ -41,7 +44,7 @@ exports.proyectosHome = async (req, res) => {
 exports.formularioProyecto = async (req, res) => {
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
-    const tiposPromise = Tipos.findAll();
+    const tiposPromise = TipoProyectos.findAll();
     const [usuarios, proyectos, tipos] = await Promise.all([usuariosPromise, proyectosPromise, tiposPromise]);
 
     // Lista de Proyectos por Año
@@ -283,7 +286,7 @@ exports.actualizarProyecto = async (req, res) => {
             proyectos
         })
     } else {
-        await Proyectos.update({
+        const proyectoDB = await Proyectos.update({
             nombre,
             descripcion,
             tipoId: tipo,
@@ -316,7 +319,7 @@ exports.actualizarProyecto = async (req, res) => {
         if (ingRespaldo) {
             await ingRespaldo.addProyectos(proyecto);
         }
-        res.redirect('/');
+        res.redirect(`/proyecto/${proyecto.url}`);
     }
 }
 
@@ -358,4 +361,60 @@ exports.cambiarEstadoProyecto = async (req, res, next) => {
     if (!resultado) return next();
 
     res.status(200).send('Actualizado');
+}
+
+exports.cambiarAvanceProyecto = async (req, res, next) => {
+    const {
+        id,
+        avance
+    } = req.params;
+
+    const proyecto = await Proyectos.findOne({
+        where: {
+            id
+        }
+    })
+    // Cambiar Estado
+    let avanceProyecto = proyecto.avance;
+    if (avanceProyecto !== avance) {
+        avanceProyecto = avance;
+    }
+    proyecto.avance = avanceProyecto;
+
+    const resultado = await proyecto.save();
+    if (!resultado) return next();
+
+    res.status(200).send('Actualizado');
+}
+
+exports.actualizarFechasProyecto = async (req, res) => {
+    const {
+        url
+    } = req.params;
+    const proyecto = await Proyectos.findOne({
+        where: {
+            url
+        },
+        include: {
+            model: Tareas,
+            include: {
+                model: SubTareas,
+            },
+        }
+    });
+    let listaFechas = [];
+    const tareasALL = proyecto.tareas;
+    tareasALL.forEach((tarea) => {
+        listaFechas.push(new Date(tarea.time_end));
+        const subtareasALL = tarea.subtareas;
+        subtareasALL.forEach((subtarea) => {
+            listaFechas.push(new Date(subtarea.time_end));
+        });
+    });
+    let maximumDate = new Date(Math.max.apply(null, listaFechas));
+    proyecto.time_end = maximumDate;
+    const resultado = await proyecto.save();
+    if (!resultado) return next();
+
+    res.status(200).send('Proyecto Actualizado Correctamente');
 }

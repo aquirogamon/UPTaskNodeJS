@@ -236,6 +236,14 @@ exports.actualizarSubTarea = async (req, res) => {
     })
   }
 
+  if (time_end) {
+    let maximumDate = new Date(Math.max.apply(null, [new Date(time_end), new Date(tarea.time_end)]));
+    if (new Date(time_end) > new Date(tarea.time_end)) {
+      tarea.time_end = time_end
+      await tarea.save();
+    }
+  }
+
   if (errores.length > 0) {
     res.render('nuevoProyecto', {
       nombrePagina: 'Nuevo Proyecto',

@@ -80,10 +80,13 @@ exports.cambiarEstadoTarea = async (req, res, next) => {
   })
   // Cambiar Estado
   let estado = false;
+  let avance = 0;
   if (tarea.estado === estado) {
     estado = true;
+    avance = 100
   }
   tarea.estado = estado;
+  tarea.avance = avance;
 
   const resultado = await tarea.save();
   if (!resultado) return next();
@@ -192,6 +195,12 @@ exports.actualizarTarea = async (req, res) => {
       'texto': 'Agrega un nombre a la Tarea'
     })
   }
+  if (time_end) {
+    if (new Date(time_end) > new Date(proyecto.time_end)) {
+      proyecto.time_end = time_end
+      await proyecto.save();
+    }
+  }
   const ingPrincipal = await Usuarios.findByPk(ingeniero_principal);
   const ingRespaldo = await Usuarios.findByPk(ingeniero_secundario);
 
@@ -236,4 +245,28 @@ exports.actualizarTarea = async (req, res) => {
     }
     res.redirect(`/proyecto/${proyecto.url}/${tarea.url_tarea}`);
   }
+}
+
+exports.cambiarAvanceTarea = async (req, res, next) => {
+    const {
+        avance,
+        id
+    } = req.params;
+
+    const tarea = await Tareas.findOne({
+        where: {
+            id
+        }
+    })
+    // Cambiar Estado
+    let avanceTarea = tarea.avance;
+    if (avanceTarea !== avance) {
+      avanceTarea = avance;
+    }
+    tarea.avance = avanceTarea;
+
+    const resultado = await tarea.save();
+    if (!resultado) return next();
+
+    res.status(200).send('Actualizado');
 }

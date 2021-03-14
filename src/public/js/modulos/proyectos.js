@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 const btnEliminar = document.querySelector('#eliminar-proyecto');
+const btnActualizarFechas = document.querySelector('#actualizar-fechas');
 
 if (btnEliminar) {
   btnEliminar.addEventListener('click', e => {
@@ -16,7 +17,6 @@ if (btnEliminar) {
       confirmButtonText: 'Sí, Borrar!',
       cancelButtonText: 'No, Cancelar'
     }).then((result) => {
-      console.log(result)
       if (result.isConfirmed) {
         const url = `${location.origin}/proyecto/${urlProyecto}`;
         axios.delete(url, {
@@ -42,6 +42,24 @@ if (btnEliminar) {
           })
         })
       }
+    })
+  })
+}
+
+if (btnActualizarFechas) {
+  btnActualizarFechas.addEventListener('click', e => {
+    const urlProyecto = e.target.dataset.proyectoUrl
+    const url = `${location.origin}/proyecto/actualizarfechas/${urlProyecto}`;
+    console.log(url)
+    axios.patch(url, {
+      params: {
+        urlProyecto
+      }
+    })
+    .then(function (res) {
+      setTimeout(() => {
+        window.location.href = `/proyecto/${urlProyecto}`
+      }, 1000);
     })
   })
 }

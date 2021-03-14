@@ -2,20 +2,24 @@ const Proyectos = require('../model/Proyectos');
 const Tareas = require('../model/Tareas');
 const SubTareas = require('../model/SubTareas');
 const Usuarios = require('../model/Usuarios');
-const Tipos = require('../model/Tipos');
-const Estados = require('../model/EstadosProyecto');
+const TipoProyectos = require('../model/TipoProyectos');
+const TipoEstados = require('../model/TipoEstados');
 
 // Añade una clave proyectoId a la tabla Tareas
 Tareas.belongsTo(Proyectos);
+Proyectos.hasMany(Tareas);
 
 // Añade una clave tareaId a la tabla SubTareas
 SubTareas.belongsTo(Tareas);
+Tareas.hasMany(SubTareas);
 
 // Añade una clave tipoId a la tabla Proyectos
-Proyectos.belongsTo(Tipos);
+Proyectos.belongsTo(TipoProyectos);
+TipoProyectos.hasMany(Proyectos);
 
 // Añade una clave estadoId a la tabla Proyectos
-Proyectos.belongsTo(Estados);
+Proyectos.belongsTo(TipoEstados);
+TipoEstados.hasMany(Proyectos);
 
 Proyectos.belongsToMany(Usuarios, {
   through: 'usuarios_proyectos',
@@ -41,39 +45,3 @@ Usuarios.belongsToMany(Tareas, {
   foreignKey: 'usuario_id',
   otherKey: 'tarea_id'
 })
-
-
-// El usuario pertenece a varios Proyectos
-// Crear una nueva tabla llamada 'usuario_proyecto'
-// Usuarios.belongsToMany(Proyectos, {
-//   through: 'ingprincipal_proyecto',
-//   foreignKey: 'ingprincipalId'
-// });
-// Proyectos.belongsToMany(Usuarios, {
-//   through: 'ingprincipal_proyecto',
-//   foreignKey: 'ingprincipalId'
-// });
-// Usuarios.belongsToMany(Proyectos, {
-//   through: 'ingsecundario_proyecto',
-//   foreignKey: 'ingsecundarioId'
-// });
-// // El usuario pertenece a varias Tareas
-// // Crear una nueva tabla llamada 'usuario_tarea'
-// Usuarios.belongsToMany(Tareas, {
-//   through: 'ingprincipal_tarea',
-//   foreignKey: 'ingprincipalId'
-// });
-// Usuarios.belongsToMany(Tareas, {
-//   through: 'ingsecundario_tarea',
-//   foreignKey: 'ingsecundarioId'
-// });
-// // El usuario pertenece a varias SubTareas
-// // Crear una nueva tabla llamada 'usuario_subtarea'
-// Usuarios.belongsToMany(SubTareas, {
-//   through: 'ingprincipal_subtarea',
-//   foreignKey: 'ingprincipalId'
-// });
-// Usuarios.belongsToMany(SubTareas, {
-//   through: 'ingsecundario_subtarea',
-//   foreignKey: 'ingsecundarioId'
-// });

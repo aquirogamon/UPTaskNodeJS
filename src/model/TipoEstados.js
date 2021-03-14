@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Tipos = db.define('tipos', {
+const TipoEstados = db.define('tipoestados', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -20,19 +20,6 @@ const Tipos = db.define('tipos', {
       }
     },
   },
-  responsable: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: "El campo no puede ser nulo"
-      },
-      len: {
-        args: [3, 255],
-        msg: "El nombre tiene que ser entre 3 y 255 caracteres"
-      }
-    },
-  },
 });
 
-module.exports = Tipos;
+module.exports = TipoEstados;

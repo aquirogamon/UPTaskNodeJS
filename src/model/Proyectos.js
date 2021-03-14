@@ -17,6 +17,11 @@ const Proyectos = db.define('proyectos', {
     allowNull: false,
     defaultValue: false
   },
+  avance: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+    defaultValue: 0
+  },
   descripcion: Sequelize.STRING(200),
   time_begin: Sequelize.DATE,
   time_end: Sequelize.DATE,

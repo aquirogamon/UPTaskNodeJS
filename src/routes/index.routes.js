@@ -28,6 +28,10 @@ module.exports = function () {
     router.post('/nuevo-proyecto/:id', body('nombre').not().isEmpty().trim().escape(), authController.usuarioAutenticado, proyectosController.actualizarProyecto);
     // Actualizar Estado del Proyecto
     router.patch('/proyecto/:id', authController.usuarioAutenticado, proyectosController.cambiarEstadoProyecto);
+    // Actualizar Avance del Proyecto
+    router.patch('/proyecto/avance/:id/:avance', authController.usuarioAutenticado, proyectosController.cambiarAvanceProyecto);
+    // Actualizar fechas del proyecto
+    router.patch('/proyecto/actualizarfechas/:url', proyectosController.actualizarFechasProyecto);
     // Eliminar Proyecto
     router.delete('/proyecto/:url', authController.usuarioAutenticado, proyectosController.eliminarProyecto);
 
@@ -37,6 +41,8 @@ module.exports = function () {
     router.get('/proyecto/tarea/editar/:id', authController.usuarioAutenticado, tareasController.formularioEditar);
     // Actualizar Estado de Tarea
     router.patch('/tarea/:id', authController.usuarioAutenticado, tareasController.cambiarEstadoTarea);
+    // Actualizar Avance de Tarea
+    router.patch('/tarea/avance/:id/:avance', authController.usuarioAutenticado, tareasController.cambiarAvanceTarea);
     // Actualizar Estado de Tarea
     router.post('/proyecto/tarea/:id', authController.usuarioAutenticado, tareasController.actualizarTarea);
     // Eliminar una Tarea
@@ -78,6 +84,9 @@ module.exports = function () {
 
     // Listar Tareas del Ingeniero
     router.get('/lista-tareas', authController.usuarioAutenticado, dashboardController.listaTareas);
+    // Diagrama de Gantt
+    router.get('/diagrama-gantt', authController.usuarioAutenticado, dashboardController.diagramaGantt);
+    router.get('/diagrama-gantt/data', authController.usuarioAutenticado, dashboardController.diagramaGanttData);
 
     return router;
 };
