@@ -78,17 +78,35 @@ exports.formularioProyecto = async (req, res) => {
 };
 
 exports.nuevoProyecto = async (req, res) => {
-    const proyectos = await Proyectos.findAll();
+    const proyectosPromise = Proyectos.findAll();
+    const usuariosPromise = Usuarios.findAll();
+    const tiposPromise = TipoProyectos.findAll();
+    const [usuarios, proyectos, tipos] = await Promise.all([usuariosPromise, proyectosPromise, tiposPromise]);
     const {
         nombre,
         descripcion,
-        tipo,
+        tipoProyecto,
         ingeniero_principal,
         ingeniero_secundario,
         time_begin,
         time_end
     } = req.body;
     let errores = [];
+    let usuarioPrincipal = [];
+    let usuarioRespaldo = [];
+
+    // Lista de Proyectos por Año
+    const groupByEstadoYear = nest(proyectos, ['estado', 'year']);
+
+    const proyectosByTrue = groupByEstadoYear[true];
+    const proyectosByFalse = groupByEstadoYear[false];
+
+    if (proyectosByFalse) {
+        var yearsFalse = Object.keys(proyectosByFalse).sort((a, b) => b - a);
+    }
+    if (proyectosByTrue) {
+        var yearsTrue = Object.keys(proyectosByTrue).sort((a, b) => b - a);
+    }
 
     if (!nombre) {
         errores.push({
@@ -113,13 +131,28 @@ exports.nuevoProyecto = async (req, res) => {
         res.render('nuevoProyecto', {
             nombrePagina: 'Nuevo Proyecto',
             errores,
-            proyectos
+            proyectos,
+            yearsFalse,
+            yearsTrue,
+            proyectosByFalse,
+            proyectosByTrue,
+            tipos,
+            usuarios,
+            usuarioPrincipal,
+            usuarioRespaldo,
+            nombre,
+            descripcion,
+            tipoProyecto,
+            ingeniero_principal,
+            ingeniero_secundario,
+            time_begin,
+            time_end
         })
     } else {
         const proyecto = await Proyectos.create({
             nombre,
             descripcion,
-            tipoproyectoId: tipo,
+            tipoproyectoId: tipoProyecto,
             time_begin,
             time_end
         });

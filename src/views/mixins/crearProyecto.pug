@@ -2,13 +2,13 @@ mixin crearProyecto(proyecto = {})
   form.agregar-proyecto(action=`/nuevo-proyecto/${proyecto.id || ''}` method="POST")
     .campo
       label(for='nombre') Nombre del Proyecto:
-      input(value= proyecto.nombre type='text' id='nombre' name='nombre' placeholder='Nombre Proyecto')
+      input(value= (proyecto.nombre || nombre) type='text' id='nombre' name='nombre' placeholder='Nombre Proyecto')
     .campo
       label(for='tipo') Tipo de Proyecto:
       select(name='tipo')
         option(disabled='' selected='') Seleccione el Tipo de Proyecto
         each tipo in tipos
-          option(value= tipo.id, selected=proyecto.tipoproyectoId == tipo.id ? true : false) #{tipo.nombre}
+          option(value= tipo.id, selected=(proyecto.tipoproyectoId || tipoProyecto) == tipo.id ? true : false) #{tipo.nombre}
     .campo
       label(for='ingeniero_principal') Ingeniero del Proyecto:
       select(name='ingeniero_principal')
@@ -29,13 +29,13 @@ mixin crearProyecto(proyecto = {})
             option(value= usuario.id) #{usuario.nombre}
     .campo
       label(for='descripcion') Descripción del Proyecto:
-      input(value= proyecto.descripcion type='text' id='descripcion' name='descripcion' placeholder='Descripción Proyecto')
+      input(value= (proyecto.descripcion || descripcion) type='text' id='descripcion' name='descripcion' placeholder='Descripción Proyecto')
     .campo
       label(for='time_begin') Fecha Inicio del Proyecto:
-      input(value= fecha_inicio type='date' id='time_begin' name='time_begin' placeholder='Fecha Inicio del Proyecto')
+      input(value= (fecha_inicio || time_begin) type='date' id='time_begin' name='time_begin' placeholder='Fecha Inicio del Proyecto')
     .campo
       label(for='time_end') Fecha Fin del Proyecto:
-      input(value= fecha_fin type='date' id='time_end' name='time_end' placeholder='Fecha Fin del Proyecto')
+      input(value= (fecha_fin || time_end) type='date' id='time_end' name='time_end' placeholder='Fecha Fin del Proyecto')
     .campo.enviar
       input(type='submit' value=`${proyecto.nombre ? 'Guardar' : 'Agregar'}` class='boton')
     .campo.enviar
