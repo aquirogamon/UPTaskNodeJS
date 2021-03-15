@@ -45,7 +45,6 @@ const Tareas = db.define('tareas', {
   hooks: {
     beforeCreate(tarea) {
       const cadena = removeAccents(tarea.nombre);
-      console.log(cadena);
       const url = slug(cadena).toLowerCase();
       tarea.url_tarea = `${url}-${shortid.generate()}`;
     }
