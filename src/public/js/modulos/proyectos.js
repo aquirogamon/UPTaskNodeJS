@@ -50,7 +50,6 @@ if (btnActualizarFechas) {
   btnActualizarFechas.addEventListener('click', e => {
     const urlProyecto = e.target.dataset.proyectoUrl
     const url = `${location.origin}/proyecto/actualizarfechas/${urlProyecto}`;
-    console.log(url)
     axios.patch(url, {
       params: {
         urlProyecto

@@ -48,7 +48,6 @@ exports.crearCuenta = async (req, res) => {
     req.flash('correcto', 'Enviamos un correo, confirmar tu cuenta');
     res.redirect('/cuenta-local')
   } catch (error) {
-    console.log(error)
     req.flash('error', error.errors.map(error => error.message))
     res.render('crearCuenta', {
       nombrePagina: 'Crear una Cuenta en UPTask',

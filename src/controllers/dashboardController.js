@@ -208,7 +208,6 @@ exports.diagramaGanttData = async (req, res) => {
 
   let listaProyectos = [];
   const proyectosALL = proyectosUsuario;
-  console.log('proyectosALL: ', proyectosALL)
   proyectosALL.forEach((proyecto) => {
     let items = {
       id: `p_${proyecto.id}`,
