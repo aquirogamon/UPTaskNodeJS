@@ -157,11 +157,14 @@ exports.nuevoProyecto = async (req, res) => {
             time_end
         });
 
-        if (ingPrincipal) {
-            await ingPrincipal.addProyectos(proyecto);
+        if (ingPrincipal && ingRespaldo) {
+            proyecto.setUsuarios([ingPrincipal, ingRespaldo]);
         }
-        if (ingRespaldo) {
-            await ingRespaldo.addProyectos(proyecto);
+        if (ingPrincipal && !ingRespaldo) {
+            await proyecto.addUsuario(ingPrincipal);
+        }
+        if (ingRespaldo && !ingPrincipal) {
+            await proyecto.addUsuario(ingRespaldo);
         }
 
         res.redirect('/');
@@ -270,6 +273,7 @@ exports.formularioEditar = async (req, res) => {
             }
         }, ],
     });
+    console.log('proyectoIng: ', proyectoIng.usuarios)
     const usuarioPrincipal = proyectoIng.usuarios;
     const usuarioRespaldo = proyectoIng.usuarios;
 
@@ -334,24 +338,36 @@ exports.actualizarProyecto = async (req, res) => {
             include: [{
                 model: Usuarios,
                 as: "usuarios",
-                attributes: ["id"],
+                attributes: ["id", "nombre", "role"],
                 through: {
                     attributes: [],
                 }
             }, ],
         });
-        const {
-            usuarios
-        } = proyecto;
-        usuarios.forEach(async usuario => {
-            await usuario.removeProyectos(proyecto);
+
+        if (ingPrincipal && ingRespaldo) {
+            proyecto.setUsuarios([ingPrincipal, ingRespaldo]);
+        }
+        if (ingPrincipal && !ingRespaldo) {
+            await proyecto.addUsuario(ingPrincipal);
+        }
+        if (ingRespaldo && !ingPrincipal) {
+            await proyecto.addUsuario(ingRespaldo);
+        }
+
+        const proyectoConIng = await Proyectos.findByPk(req.params.id, {
+            include: [{
+                model: Usuarios,
+                as: "usuarios",
+                attributes: ["id", "nombre", "role"],
+                through: {
+                    attributes: [],
+                }
+            }, ],
         });
-        if (ingPrincipal) {
-            await ingPrincipal.addProyectos(proyecto);
-        }
-        if (ingRespaldo) {
-            await ingRespaldo.addProyectos(proyecto);
-        }
+        console.log('proyectoID: ', req.params.id);
+        console.log('proyectoConIng: ', proyectoConIng.usuarios)
+        // return
         res.redirect(`/proyecto/${proyecto.url}`);
     }
 }
