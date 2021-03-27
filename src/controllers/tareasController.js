@@ -52,7 +52,7 @@ exports.agregarTarea = async (req, res) => {
       proyectoId,
     });
     if (ingPrincipal) {
-      await ingPrincipal.addTareas(tarea);
+      await tarea.addUsuario(ingPrincipal);
     }
     res.redirect(`/proyecto/${url}`);
   } else {
@@ -63,7 +63,7 @@ exports.agregarTarea = async (req, res) => {
       proyectoId,
     });
     if (ingPrincipal) {
-      await ingPrincipal.addTareas(tarea);
+      await tarea.addUsuario(ingPrincipal);
     }
     res.redirect(`/proyecto/${url}`);
   }
@@ -231,21 +231,14 @@ exports.actualizarTarea = async (req, res) => {
         }
       }, ],
     });
-    const {
-      usuarios
-    } = tarea;
-    TODO:
-    /*
-      Se tiene un BUX con las asignaciones de usuarios a Tareas y Proyectos.
-    */
-    usuarios.forEach(async usuario => {
-      await usuario.removeTareas(tarea);
-    });
-    if (ingPrincipal) {
-      await ingPrincipal.addTareas(tarea);
+    if (ingPrincipal && ingRespaldo) {
+      tarea.setUsuarios([ingPrincipal, ingRespaldo]);
     }
-    if (ingRespaldo) {
-      await ingRespaldo.addTareas(tarea);
+    if (ingPrincipal && !ingRespaldo) {
+        await tarea.addUsuario(ingPrincipal);
+    }
+    if (ingRespaldo && !ingPrincipal) {
+        await tarea.addUsuario(ingRespaldo);
     }
     res.redirect(`/proyecto/${proyecto.url}/${tarea.url_tarea}`);
   }

@@ -49,7 +49,7 @@ exports.enviarToken = async (req, res) => {
   // Si no existe el usuario
   if (!usuario) {
     req.flash('error', 'No existe esa cuenta');
-    res.redirect('/reestablecer');
+    return res.redirect('/reestablecer');
   }
 
   usuario.token = crypto.randomBytes(20).toString('hex');
