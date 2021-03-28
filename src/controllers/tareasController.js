@@ -4,7 +4,8 @@ const Usuarios = require('../model/Usuarios');
 var _ = require('lodash');
 const {
   formatDate,
-  nest
+  nest,
+  removeNullFromArray
 } = require('../libs/funciones')
 
 exports.agregarTarea = async (req, res) => {
@@ -39,6 +40,7 @@ exports.agregarTarea = async (req, res) => {
   }
 
   const ingPrincipal = await Usuarios.findByPk(ingeniero_principal);
+  const ingenieros = removeNullFromArray([ingPrincipal])
 
   if (errores.length > 0) {
     res.render('nuevoProyecto', {
@@ -47,23 +49,23 @@ exports.agregarTarea = async (req, res) => {
       proyectos
     })
   } else if (!time_begin || !time_end) {
-    const tarea = await Tareas.create({
+    await Tareas.create({
       nombre,
       proyectoId,
     });
-    if (ingPrincipal) {
-      await tarea.addUsuario(ingPrincipal);
+    if (ingenieros) {
+      tarea.setUsuarios(ingenieros);
     }
     res.redirect(`/proyecto/${url}`);
   } else {
-    const tarea = await Tareas.create({
+    await Tareas.create({
       nombre,
       time_begin,
       time_end,
       proyectoId,
     });
-    if (ingPrincipal) {
-      await tarea.addUsuario(ingPrincipal);
+    if (ingenieros) {
+      tarea.setUsuarios(ingenieros);
     }
     res.redirect(`/proyecto/${url}`);
   }
@@ -203,6 +205,7 @@ exports.actualizarTarea = async (req, res) => {
   }
   const ingPrincipal = await Usuarios.findByPk(ingeniero_principal);
   const ingRespaldo = await Usuarios.findByPk(ingeniero_secundario);
+  const ingenieros = removeNullFromArray([ingPrincipal, ingRespaldo])
 
   if (errores.length > 0) {
     res.render('nuevoProyecto', {
@@ -231,14 +234,9 @@ exports.actualizarTarea = async (req, res) => {
         }
       }, ],
     });
-    if (ingPrincipal && ingRespaldo) {
-      tarea.setUsuarios([ingPrincipal, ingRespaldo]);
-    }
-    if (ingPrincipal && !ingRespaldo) {
-        await tarea.addUsuario(ingPrincipal);
-    }
-    if (ingRespaldo && !ingPrincipal) {
-        await tarea.addUsuario(ingRespaldo);
+
+    if (ingenieros) {
+      tarea.setUsuarios(ingenieros);
     }
     res.redirect(`/proyecto/${proyecto.url}/${tarea.url_tarea}`);
   }

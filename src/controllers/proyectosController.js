@@ -8,7 +8,8 @@ require("date-format-lite");
 
 const {
     formatDate,
-    nest
+    nest,
+    removeNullFromArray
 } = require('../libs/funciones')
 require('../config/asociations');
 
@@ -126,6 +127,7 @@ exports.nuevoProyecto = async (req, res) => {
 
     const ingPrincipal = await Usuarios.findByPk(ingeniero_principal);
     const ingRespaldo = await Usuarios.findByPk(ingeniero_secundario);
+    const ingenieros = removeNullFromArray([ingPrincipal, ingRespaldo])
 
     if (errores.length > 0) {
         res.render('nuevoProyecto', {
@@ -157,14 +159,8 @@ exports.nuevoProyecto = async (req, res) => {
             time_end
         });
 
-        if (ingPrincipal && ingRespaldo) {
-            proyecto.setUsuarios([ingPrincipal, ingRespaldo]);
-        }
-        if (ingPrincipal && !ingRespaldo) {
-            await proyecto.addUsuario(ingPrincipal);
-        }
-        if (ingRespaldo && !ingPrincipal) {
-            await proyecto.addUsuario(ingRespaldo);
+        if (ingenieros) {
+            proyecto.setUsuarios(ingenieros);
         }
 
         res.redirect('/');
@@ -273,7 +269,7 @@ exports.formularioEditar = async (req, res) => {
             }
         }, ],
     });
-    console.log('proyectoIng: ', proyectoIng.usuarios)
+
     const usuarioPrincipal = proyectoIng.usuarios;
     const usuarioRespaldo = proyectoIng.usuarios;
 
@@ -315,6 +311,7 @@ exports.actualizarProyecto = async (req, res) => {
 
     const ingPrincipal = await Usuarios.findByPk(ingeniero_principal);
     const ingRespaldo = await Usuarios.findByPk(ingeniero_secundario);
+    const ingenieros = removeNullFromArray([ingPrincipal, ingRespaldo])
 
     if (errores.length > 0) {
         res.render('nuevoProyecto', {
@@ -323,7 +320,7 @@ exports.actualizarProyecto = async (req, res) => {
             proyectos
         })
     } else {
-        const proyectoDB = await Proyectos.update({
+        await Proyectos.update({
             nombre,
             descripcion,
             tipoproyectoId: tipo,
@@ -345,14 +342,8 @@ exports.actualizarProyecto = async (req, res) => {
             }, ],
         });
 
-        if (ingPrincipal && ingRespaldo) {
-            proyecto.setUsuarios([ingPrincipal, ingRespaldo]);
-        }
-        if (ingPrincipal && !ingRespaldo) {
-            await proyecto.addUsuario(ingPrincipal);
-        }
-        if (ingRespaldo && !ingPrincipal) {
-            await proyecto.addUsuario(ingRespaldo);
+        if (ingenieros) {
+            proyecto.setUsuarios(ingenieros);
         }
 
         const proyectoConIng = await Proyectos.findByPk(req.params.id, {
@@ -365,8 +356,6 @@ exports.actualizarProyecto = async (req, res) => {
                 }
             }, ],
         });
-        console.log('proyectoID: ', req.params.id);
-        console.log('proyectoConIng: ', proyectoConIng.usuarios)
         // return
         res.redirect(`/proyecto/${proyecto.url}`);
     }

@@ -6,13 +6,13 @@ mixin crearProyecto(proyecto = {})
     .campo
       label(for='tipo') Tipo de Proyecto:
       select(name='tipo')
-        option(disabled='' selected='') Seleccione el Tipo de Proyecto
+        option(selected='') Seleccione el Tipo de Proyecto
         each tipo in tipos
           option(value= tipo.id, selected=(proyecto.tipoproyectoId || tipoProyecto) == tipo.id ? true : false) #{tipo.nombre}
     .campo
       label(for='ingeniero_principal') Ingeniero del Proyecto:
       select(name='ingeniero_principal')
-        option(disabled='' selected='') Seleccione al 1er Ingeniero
+        option(selected='') Seleccione al 1er Ingeniero
         each usuario in usuarios
           if(usuarioPrincipal.length)
             option(value= usuario.id, selected=usuarioPrincipal[0].id == usuario.id ? true : false) #{usuario.nombre}
@@ -21,7 +21,7 @@ mixin crearProyecto(proyecto = {})
     .campo
       label(for='ingeniero_secundario') Ingeniero del Proyecto (BackUP):
       select(name='ingeniero_secundario')
-        option(disabled='' selected='') Seleccione al 2do Ingeniero
+        option(selected='') Seleccione al 2do Ingeniero
         each usuario in usuarios
           if (usuarioRespaldo.length == 2)
             option(value= usuario.id, selected=usuarioRespaldo[1].id == usuario.id ? true : false) #{usuario.nombre}

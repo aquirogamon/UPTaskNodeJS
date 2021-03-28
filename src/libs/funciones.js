@@ -44,9 +44,23 @@ const removeAccents = (str) => {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
+const removeNullFromArray = (arrayToClean) => {
+  const cleanedArray = [];
+  arrayToClean.forEach((val) => {
+    if(val !== null){
+      cleanedArray.push(val);
+    }
+  });
+
+  return cleanedArray;
+}
+
 module.exports = {
   nest,
   formatDate,
   quitarAcentos,
-  removeAccents
+  removeAccents,
+  removeNullFromArray
 };
+
+
