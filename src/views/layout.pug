@@ -6,25 +6,23 @@ html(lang="en")
   body
     header.barra
       h1 UpTask - Administrador de Proyectos - #{usuario.nombre}
-      if(usuario.role === 3)
-        #navegador
-          ul
-            li
-              a(href="/diagrama-gantt") Avance de Proyectos
+      #navegador
+        ul
+          li
+            a(href="/diagrama-gantt") Avance de Proyectos
+          if(usuario.role === 3)
             li#listaTarea
               a(href='#') Lista de Tareas
               #sublistaTarea
                 p
                   a(href="#") Tareas de Ing.
                 p
-                  a(href="/lista-tareas") Lista Total.
+                  a(href="/lista-tareas") Lista Total
+          else
             li
-              a(href="/cerrar-sesion") Cerrar Sesión
-      else
-        div
-          a(href="/diagrama-gantt") Avance de Proyectos
-          a(href="/lista-tareas") Lista de Tareas
-          a(href="/cerrar-sesion") Cerrar Sesión
+              a(href="/lista-tareas") Lista Total
+          li
+            a(href="/cerrar-sesion") Cerrar Sesión
 
     main.contenedor
       aside.contenedor-proyectos
