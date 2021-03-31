@@ -9,6 +9,21 @@ const {
 var _ = require('lodash');
 
 exports.tareaPorUrl = async (req, res) => {
+  const usuarioAd = res.locals.usuario.sAMAccountName;
+  const usuarioLocal = res.locals.usuario.email;
+  if (!usuarioAd) {
+    var usuario = await Usuarios.findOne({
+      where: {
+        email: usuarioLocal,
+      },
+    });
+  } else {
+    var usuario = await Usuarios.findOne({
+      where: {
+        usuario: usuarioAd,
+      },
+    });
+  }
   const {
     url,
     url_tarea
@@ -70,7 +85,8 @@ exports.tareaPorUrl = async (req, res) => {
     proyectosByFalse,
     proyectosByTrue,
     usuarioPrincipal,
-    usuarioRespaldo
+    usuarioRespaldo,
+    usuario
   })
 }
 

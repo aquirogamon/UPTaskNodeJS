@@ -50,6 +50,9 @@ exports.listaTareas = async (req, res) => {
   }
   if (usuario.role === 3) {
     arrayTipoProyectos = [];
+    if (!tipoProyectos) {
+      next();
+    }
     tipoProyectos.forEach((tipoproyecto) => {
       arrayTipoProyectos.push(tipoproyecto.id)
     })
@@ -242,14 +245,35 @@ exports.diagramaGanttData = async (req, res) => {
       });
     });
   });
-
   res.send({
-    data: listaProyectos,
+    data: listaProyectos
   });
 };
 
 exports.diagramaGantt = async (req, res) => {
+  const usuarioAd = res.locals.usuario.sAMAccountName;
+  const usuarioLocal = res.locals.usuario.email;
+  if (!usuarioAd) {
+    var usuarioDB = await Usuarios.findOne({
+      where: {
+        email: usuarioLocal,
+      },
+    });
+  } else {
+    var usuarioDB = await Usuarios.findOne({
+      where: {
+        usuario: usuarioAd,
+      },
+    });
+    var tipoProyectos = await TipoProyectos.findAll({
+      where: {
+        usuario: usuarioAd,
+      },
+      attributes: ["id"]
+    });
+  }
   res.render("diagramaGantt", {
     nombrePagina: "Diagrama de Gantt",
+    usuarioDB
   });
 };

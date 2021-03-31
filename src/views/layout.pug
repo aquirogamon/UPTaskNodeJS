@@ -5,11 +5,26 @@ html(lang="en")
     title= nombrePagina
   body
     header.barra
-      h1 UpTask - Administrador de Proyectos
-      div
-        a(href="/diagrama-gantt") Avance de Proyectos
-        a(href="/lista-tareas") Lista de Tareas
-        a(href="/cerrar-sesion") Cerrar Sesión
+      h1 UpTask - Administrador de Proyectos - #{usuario.nombre}
+      if(usuario.role === 3)
+        #navegador
+          ul
+            li
+              a(href="/diagrama-gantt") Avance de Proyectos
+            li#listaTarea
+              a(href='#') Lista de Tareas
+              #sublistaTarea
+                p
+                  a(href="#") Tareas de Ing.
+                p
+                  a(href="/lista-tareas") Lista Total.
+            li
+              a(href="/cerrar-sesion") Cerrar Sesión
+      else
+        div
+          a(href="/diagrama-gantt") Avance de Proyectos
+          a(href="/lista-tareas") Lista de Tareas
+          a(href="/cerrar-sesion") Cerrar Sesión
 
     main.contenedor
       aside.contenedor-proyectos
@@ -40,4 +55,6 @@ html(lang="en")
               p No hay proyectos Finalizados
 
       block contenido
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js' integrity='sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf' crossorigin='anonymous')
     script(src="/dist/bundle.js")
+    script(type='text/javascript')

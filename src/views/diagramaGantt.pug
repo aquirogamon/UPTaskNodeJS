@@ -4,8 +4,6 @@ html(lang="en")
     include partials/header
     title= nombrePagina
     meta(http-equiv='Content-type' content='text/html; charset=utf-8')
-    script(src='https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js')
-    link(href='https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css' rel='stylesheet')
     style(type='text/css').
       html, body{
       height:100%;
@@ -13,14 +11,32 @@ html(lang="en")
       margin:0px;
       overflow: hidden;
       }
+  //- TODO: Revisar el listado por Role.
   body
     header.barra
-      h1 UpTask - Administrador de Proyectos
-      div
-        a(href="/diagrama-gantt") Avance de Proyectos
-        a(href="/lista-tareas") Lista de Tareas
-        a(href="/cerrar-sesion") Cerrar Sesión
+      h1 UpTask - Administrador de Proyectos - #{usuarioDB.nombre}
+      if(usuarioDB.role === 3)
+        #navegador
+          ul
+            li#listaTarea1
+              a(href="/diagrama-gantt") Avance de Proyectos
+            li#listaTarea2(onmouseover='ver(1)' onmouseout='ocultar(1)')
+              a(href='#') Lista de Tareas
+              #sublistaTarea1
+                p
+                  a(href="#") Tareas de Ing.
+                p
+                  a(href="/lista-tareas") Lista Total.
+            li#listaTarea3
+              a(href="/cerrar-sesion") Cerrar Sesión
+      else
+        div
+          a(href="/diagrama-gantt") Avance de Proyectos
+          a(href="/lista-tareas") Lista de Tareas
+          a(href="/cerrar-sesion") Cerrar Sesión
+
     #gantt_here(style='width:100%; height:100%;')
+    script(src='https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js')
     script(type='text/javascript').
       gantt.config.columns = [
         {name:"text",       label:"Tarea",  width:"200", tree:true },
@@ -38,3 +54,9 @@ html(lang="en")
       gantt.config.scale_height = 50;
       gantt.init("gantt_here");
       gantt.load("/diagrama-gantt/data");
+      function ver(n) {
+              document.getElementById("sublistaTarea"+n).style.display="block"
+              }
+      function ocultar(n) {
+              document.getElementById("sublistaTarea"+n).style.display="none"
+              }

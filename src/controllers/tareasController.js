@@ -114,6 +114,21 @@ exports.eliminarTarea = async (req, res) => {
 }
 
 exports.formularioEditar = async (req, res) => {
+  const usuarioAd = res.locals.usuario.sAMAccountName;
+  const usuarioLocal = res.locals.usuario.email;
+  if (!usuarioAd) {
+    var usuario = await Usuarios.findOne({
+      where: {
+        email: usuarioLocal,
+      },
+    });
+  } else {
+    var usuario = await Usuarios.findOne({
+      where: {
+        usuario: usuarioAd,
+      },
+    });
+  }
   const proyectosPromise = Proyectos.findAll();
   const usuariosPromise = Usuarios.findAll();
   const tareaPromise = Tareas.findOne({
@@ -170,7 +185,8 @@ exports.formularioEditar = async (req, res) => {
     usuarioPrincipal,
     usuarioRespaldo,
     fecha_inicio,
-    fecha_fin
+    fecha_fin,
+    usuario
   });
 };
 

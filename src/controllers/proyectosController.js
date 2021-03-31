@@ -18,6 +18,21 @@ const meses = ["Ene", "Feb", "Mar", "Apr", "May", "Jun",
 ];
 
 exports.proyectosHome = async (req, res) => {
+    const usuarioAd = res.locals.usuario.sAMAccountName;
+    const usuarioLocal = res.locals.usuario.email;
+    if (!usuarioAd) {
+      var usuario = await Usuarios.findOne({
+        where: {
+          email: usuarioLocal,
+        },
+      });
+    } else {
+      var usuario = await Usuarios.findOne({
+        where: {
+          usuario: usuarioAd,
+        },
+      });
+    }
     const proyectos = await Proyectos.findAll();
 
     // Lista de Proyectos por Año
@@ -39,10 +54,26 @@ exports.proyectosHome = async (req, res) => {
         yearsTrue,
         proyectosByFalse,
         proyectosByTrue,
+        usuario
     });
 };
 
 exports.formularioProyecto = async (req, res) => {
+    const usuarioAd = res.locals.usuario.sAMAccountName;
+    const usuarioLocal = res.locals.usuario.email;
+    if (!usuarioAd) {
+      var usuario = await Usuarios.findOne({
+        where: {
+          email: usuarioLocal,
+        },
+      });
+    } else {
+      var usuario = await Usuarios.findOne({
+        where: {
+          usuario: usuarioAd,
+        },
+      });
+    }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
     const tiposPromise = TipoProyectos.findAll();
@@ -74,11 +105,27 @@ exports.formularioProyecto = async (req, res) => {
         usuarios,
         usuarioPrincipal,
         usuarioRespaldo,
-        tipos
+        tipos,
+        usuario
     });
 };
 
 exports.nuevoProyecto = async (req, res) => {
+    const usuarioAd = res.locals.usuario.sAMAccountName;
+    const usuarioLocal = res.locals.usuario.email;
+    if (!usuarioAd) {
+      var usuario = await Usuarios.findOne({
+        where: {
+          email: usuarioLocal,
+        },
+      });
+    } else {
+      var usuario = await Usuarios.findOne({
+        where: {
+          usuario: usuarioAd,
+        },
+      });
+    }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
     const tiposPromise = TipoProyectos.findAll();
@@ -148,7 +195,8 @@ exports.nuevoProyecto = async (req, res) => {
             ingeniero_principal,
             ingeniero_secundario,
             time_begin,
-            time_end
+            time_end,
+            usuario
         })
     } else {
         const proyecto = await Proyectos.create({
@@ -168,6 +216,21 @@ exports.nuevoProyecto = async (req, res) => {
 }
 
 exports.proyectoPorUrl = async (req, res, next) => {
+    const usuarioAd = res.locals.usuario.sAMAccountName;
+    const usuarioLocal = res.locals.usuario.email;
+    if (!usuarioAd) {
+      var usuario = await Usuarios.findOne({
+        where: {
+          email: usuarioLocal,
+        },
+      });
+    } else {
+      var usuario = await Usuarios.findOne({
+        where: {
+          usuario: usuarioAd,
+        },
+      });
+    }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
     const proyectoPromise = Proyectos.findOne({
@@ -231,10 +294,26 @@ exports.proyectoPorUrl = async (req, res, next) => {
         proyectosByTrue,
         usuarioPrincipal,
         usuarioRespaldo,
+        usuario
     })
 }
 
 exports.formularioEditar = async (req, res) => {
+    const usuarioAd = res.locals.usuario.sAMAccountName;
+    const usuarioLocal = res.locals.usuario.email;
+    if (!usuarioAd) {
+      var usuario = await Usuarios.findOne({
+        where: {
+          email: usuarioLocal,
+        },
+      });
+    } else {
+      var usuario = await Usuarios.findOne({
+        where: {
+          usuario: usuarioAd,
+        },
+      });
+    }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
     const tiposPromise = TipoProyectos.findAll();
@@ -286,7 +365,8 @@ exports.formularioEditar = async (req, res) => {
         usuarioRespaldo,
         fecha_inicio,
         fecha_fin,
-        tipos
+        tipos,
+        usuario
     })
 }
 
