@@ -1,0 +1,23 @@
+
+/* 
+  Header
+*/
+
+#navegador li {
+  color: var(--white-color);
+  margin: 0px 5px;
+  text-decoration: none;
+  float: left;
+  list-style-type: none;
+  position: relative;
+}
+
+#sublistaTarea {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  background-color: var(--first-color);
+  font: normal 0.8em var(--body-font);
+  padding: 0.8em 0.5em 0.2em 0.5em;
+  display: none;
+}
