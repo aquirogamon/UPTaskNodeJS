@@ -344,7 +344,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \****************************************/
 /***/ (() => {
 
-eval("var lista = document.querySelector('#listaTarea');\nvar sublista = document.querySelector('#sublistaTarea');\nconsole.log(lista);\nconsole.log(sublista);\nlista.onmouseover = ver;\nlista.onmouseout = ocultar;\n\nfunction ver() {\n  sublista.style.display = \"block\";\n}\n\n;\n\nfunction ocultar() {\n  sublista.style.display = \"none\";\n}\n\n//# sourceURL=webpack://UpTaskNodeNJ/./src/public/js/modulos/otros.js?");
+eval("var lista = document.querySelector('#listaTarea');\nvar sublista = document.querySelector('#sublistaTarea');\nlista.onmouseover = ver;\nlista.onmouseout = ocultar;\n\nfunction ver() {\n  sublista.style.display = \"block\";\n}\n\n;\n\nfunction ocultar() {\n  sublista.style.display = \"none\";\n}\n\n//# sourceURL=webpack://UpTaskNodeNJ/./src/public/js/modulos/otros.js?");
 
 /***/ }),
 
