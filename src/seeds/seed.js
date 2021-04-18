@@ -20,22 +20,26 @@ db.sync({
     // Conexión establecida
     console.log("Conexión establecida...");
   })
-  .then(async () => {
-    // Rellenar Tipos de Proyectos
-    await usuarios.forEach((usuario) => Usuarios.create(usuario));
-  })
   // .then(async () => {
   //   // Rellenar Tipos de Proyectos
+  //   await usuarios.forEach((usuario) => Usuarios.create(usuario));
+  // })
+  // .then(async () => {
+  //   // Rellenar Proyectos
   //   await proyectos.forEach((proyecto) => Proyectos.create(proyecto));
   // })
   // .then(async () => {
   //   // Rellenar Tipos de Proyectos
-  //   await tareas.forEach((tarea) => Tareas.create(tarea));
+  //   await tipos.forEach((tipo) => TipoProyectos.create(tipo));
   // })
   // .then(async () => {
-  //   // Rellenar Tipos de Proyectos
-  //   await subtareas.forEach((subtarea) => SubTareas.create(subtarea));
-  // });
+  //   // Rellenar Tareas
+  //   await tareas.forEach((tarea) => Tareas.create(tarea));
+  // })
+  .then(async () => {
+    // Rellenar SubTareas
+    await subtareas.forEach((subtarea) => SubTareas.create(subtarea));
+  });
 // .then(() => {
 //   // Rellenar proyectos
 //   tareas.forEach(tarea => Tareas.create(tarea));

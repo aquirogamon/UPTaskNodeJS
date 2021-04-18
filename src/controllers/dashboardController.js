@@ -27,6 +27,7 @@ function groupByEstado(proyectos) {
 }
 
 exports.listaTareas = async (req, res) => {
+  const proyectos = await Proyectos.findAll();
   const usuarioAd = res.locals.usuario.sAMAccountName;
   const usuarioLocal = res.locals.usuario.email;
   if (!usuarioAd) {
@@ -48,11 +49,9 @@ exports.listaTareas = async (req, res) => {
       attributes: ["id"]
     });
   }
-  if (usuario.role === 3) {
+  if (usuario.role === 3 && tipoProyectos) {
     arrayTipoProyectos = [];
-    if (!tipoProyectos) {
-      next();
-    }
+    
     tipoProyectos.forEach((tipoproyecto) => {
       arrayTipoProyectos.push(tipoproyecto.id)
     })
@@ -99,7 +98,6 @@ exports.listaTareas = async (req, res) => {
   });
   var listaTareas = tareasUsuario.tareas;
   }
-  const proyectos = await Proyectos.findAll();
   const { tareas } = tareasUsuario;
 
   for (let index = 0; index < listaTareas.length; index++) {
@@ -161,7 +159,7 @@ exports.diagramaGanttData = async (req, res) => {
       attributes: ["id"]
     });
   }
-  if (usuario.role === 3) {
+  if (usuario.role === 3 && tipoProyectos) {
     arrayTipoProyectos = [];
     tipoProyectos.forEach((tipoproyecto) => {
       arrayTipoProyectos.push(tipoproyecto.id)
@@ -272,6 +270,7 @@ exports.diagramaGantt = async (req, res) => {
       attributes: ["id"]
     });
   }
+  console.log(usuarioDB)
   res.render("diagramaGantt", {
     nombrePagina: "Diagrama de Gantt",
     usuarioDB

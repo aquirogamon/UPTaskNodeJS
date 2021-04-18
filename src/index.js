@@ -7,6 +7,7 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const createError = require('http-errors');
 const passport = require('passport');
 require('./config/passport')(passport);
 require('dotenv').config();
@@ -72,6 +73,17 @@ app.use((req, res, next) => {
 // app.use(morgan('dev'));
 
 app.use('/', routes());
+
+// 404 Pagina no exixte
+app.use((req, res, next) => {
+  next(createError(404, 'No Encontrado'));
+})
+
+// Administrar errores
+app.use((error, req, res, next) => {
+  res.locals.mensaje = error.message
+  res.render('error')
+})
 
 // Escucha el puerto
 const host = process.env.HOST || '0.0.0.0';

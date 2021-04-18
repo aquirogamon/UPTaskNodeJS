@@ -163,7 +163,10 @@ body.index {
 .barra a {
   color: var(--white-color);
   text-decoration: none;
-  margin-left: 20px;
+  /* margin-left: 20px; */
+}
+.logo {
+  font-size: 22px;
 }
 /*** sidebar**/
 .contenedor-proyectos {
@@ -226,9 +229,9 @@ body.index {
   font-weight: bold;
   margin-left: 0.8rem;
 }
-.lista-proyectos ul li a {
+/* .lista-proyectos ul li a {
   margin-left: 2rem;
-}
+} */
 .lista-proyectos ul li a:hover {
   color: var(--first-color-yellow);
 }

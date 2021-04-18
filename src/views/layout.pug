@@ -3,20 +3,21 @@ html(lang="en")
   head
     include partials/header
     title= nombrePagina
-  body
+  body.body-pd
     header.barra
-      h1 UpTask - Administrador de Proyectos - #{usuario.nombre}
-      #navegador
+      //- h1 UpTask - Administrador de Proyectos - #{usuario.nombre}
+      a.logo(href="/") UpTask - Administrador de Proyectos - #{usuario.nombre}
+      nav#navegador
         ul
           li
             a(href="/diagrama-gantt") Avance de Proyectos
           if(usuario.role === 3)
             li#listaTarea
-              a(href='#') Lista de Tareas
-              #sublistaTarea
-                p
+              a(href='#') Tareas Asignadas
+              #sublistaTarea.sublistaTarea
+                #opcion
                   a(href="#") Tareas de Ing.
-                p
+                #opcion
                   a(href="/lista-tareas") Lista Total
           else
             li
@@ -38,7 +39,7 @@ html(lang="en")
                 p=year
                   each proyecto in proyectosByFalse[year]
                     li
-                      a(href=`/proyecto/${proyecto.url}`)= proyecto.nombre
+                      a(href=`/proyecto/${proyecto.url}`) + #{proyecto.nombre}
             else
               p No hay proyectos en Proceso
           h3 Finalizado
@@ -53,6 +54,5 @@ html(lang="en")
               p No hay proyectos Finalizados
 
       block contenido
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js' integrity='sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf' crossorigin='anonymous')
     script(src="/dist/bundle.js")
     script(type='text/javascript')

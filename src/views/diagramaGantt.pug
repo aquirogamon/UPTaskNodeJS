@@ -12,51 +12,29 @@ html(lang="en")
       overflow: hidden;
       }
   //- TODO: Revisar el listado por Role.
-  body
+  body.body-pd
     header.barra
-      h1 UpTask - Administrador de Proyectos - #{usuarioDB.nombre}
-      if(usuarioDB.role === 3)
-        #navegador
-          ul
-            li#listaTarea1
-              a(href="/diagrama-gantt") Avance de Proyectos
-            li#listaTarea2(onmouseover='ver(1)' onmouseout='ocultar(1)')
-              a(href='#') Lista de Tareas
-              #sublistaTarea1
-                p
+      //- h1 UpTask - Administrador de Proyectos - #{usuario.nombre}
+      a.logo(href="/") UpTask - Administrador de Proyectos - #{usuarioDB.nombre}
+      nav#navegador
+        ul
+          li
+            a(href="/diagrama-gantt") Avance de Proyectos
+          if(usuario.role === 3)
+            li#listaTarea
+              a(href='#') Tareas Asignadas
+              #sublistaTarea.sublistaTarea
+                #opcion
                   a(href="#") Tareas de Ing.
-                p
-                  a(href="/lista-tareas") Lista Total.
-            li#listaTarea3
-              a(href="/cerrar-sesion") Cerrar Sesión
-      else
-        div
-          a(href="/diagrama-gantt") Avance de Proyectos
-          a(href="/lista-tareas") Lista de Tareas
-          a(href="/cerrar-sesion") Cerrar Sesión
+                #opcion
+                  a(href="/lista-tareas") Lista Total
+          else
+            li
+              a(href="/lista-tareas") Lista Total
+          li
+            a(href="/cerrar-sesion") Cerrar Sesión
 
     #gantt_here(style='width:100%; height:100%;')
     script(src='https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js')
-    script(type='text/javascript').
-      gantt.config.columns = [
-        {name:"text",       label:"Tarea",  width:"200", tree:true },
-        {name:"start_date", label:"Inicio", align:"center" },
-        {name:"duration",   label:"Duración",   align:"center" },
-        {name:"add",        label:"",           width:44 }
-      ];
-      var resourceConfig = {    
-        scale_height: 30      
-      };
-      gantt.config.scale_unit = "day";
-      gantt.config.step = 5;
-      gantt.config.scale_height = 100;
-      gantt.config.min_column_width = 40;
-      gantt.config.scale_height = 50;
-      gantt.init("gantt_here");
-      gantt.load("/diagrama-gantt/data");
-      function ver(n) {
-              document.getElementById("sublistaTarea"+n).style.display="block"
-              }
-      function ocultar(n) {
-              document.getElementById("sublistaTarea"+n).style.display="none"
-              }
+    script(src="/dist/bundle.js")
+    script(type='text/javascript')
