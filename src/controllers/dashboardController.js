@@ -6,7 +6,9 @@ const TipoProyectos = require('../model/TipoProyectos')
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
 var _ = require("lodash");
-const { nest } = require("../libs/funciones");
+const {
+  nest
+} = require("../libs/funciones");
 require("../config/asociations");
 require("date-format-lite");
 
@@ -51,7 +53,7 @@ exports.listaTareas = async (req, res) => {
   }
   if (usuario.role === 3 && tipoProyectos) {
     arrayTipoProyectos = [];
-    
+
     tipoProyectos.forEach((tipoproyecto) => {
       arrayTipoProyectos.push(tipoproyecto.id)
     })
@@ -80,9 +82,8 @@ exports.listaTareas = async (req, res) => {
     }
     var listaTareas = tareasUsuario;
   } else {
-  var tareasUsuario = await Usuarios.findByPk(usuario.id, {
-    include: [
-      {
+    var tareasUsuario = await Usuarios.findByPk(usuario.id, {
+      include: [{
         model: Tareas,
         as: "tareas",
         attributes: ["id", "nombre", "estado", "url_tarea", "prioridad"],
@@ -93,12 +94,13 @@ exports.listaTareas = async (req, res) => {
           model: Proyectos,
           attributes: ["id", "nombre", "estado", "url"],
         },
-      },
-    ],
-  });
-  var listaTareas = tareasUsuario.tareas;
+      }, ],
+    });
+    var listaTareas = tareasUsuario.tareas;
   }
-  const { tareas } = tareasUsuario;
+  const {
+    tareas
+  } = tareasUsuario;
 
   for (let index = 0; index < listaTareas.length; index++) {
     listaTareas[index].nombreProyecto = listaTareas[index].proyecto.nombre;
@@ -180,29 +182,27 @@ exports.diagramaGanttData = async (req, res) => {
     proyectosUsuario = proyectosJefe;
   } else {
     var proyectosUsuarioDB = await Usuarios.findByPk(usuario.id, {
-      include: [
-        {
-          model: Proyectos,
-          as: "proyectos",
-          attributes: [
-            "id",
-            "nombre",
-            "estado",
-            "avance",
-            "time_begin",
-            "time_end",
-          ],
-          through: {
-            attributes: [],
-          },
+      include: [{
+        model: Proyectos,
+        as: "proyectos",
+        attributes: [
+          "id",
+          "nombre",
+          "estado",
+          "avance",
+          "time_begin",
+          "time_end",
+        ],
+        through: {
+          attributes: [],
+        },
+        include: {
+          model: Tareas,
           include: {
-            model: Tareas,
-            include: {
-              model: SubTareas,
-            },
+            model: SubTareas,
           },
         },
-      ],
+      }, ],
     });
     proyectosUsuario = proyectosUsuarioDB.proyectos
   }
@@ -270,7 +270,6 @@ exports.diagramaGantt = async (req, res) => {
       attributes: ["id"]
     });
   }
-  console.log(usuarioDB)
   res.render("diagramaGantt", {
     nombrePagina: "Diagrama de Gantt",
     usuarioDB
