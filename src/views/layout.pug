@@ -7,17 +7,17 @@ html(lang="en")
     header.barra
       //- h1 UpTask - Administrador de Proyectos - #{usuario.nombre}
       a.logo(href="/") UpTask - Administrador de Proyectos - #{usuario.nombre}
-      nav#navegador
+      nav#navegador.navegador
         ul
           li
             a(href="/diagrama-gantt") Avance de Proyectos
           if(usuario.role === 3)
-            li#listaTarea
+            li#listaTarea.listaTarea
               a(href='#') Tareas Asignadas
               #sublistaTarea.sublistaTarea
-                #opcion
+                #opcion.opcion
                   a(href="#") Tareas de Ing.
-                #opcion
+                #opcion.opcion
                   a(href="/lista-tareas") Lista Total
           else
             li

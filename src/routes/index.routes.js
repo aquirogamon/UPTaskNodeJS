@@ -85,8 +85,8 @@ module.exports = function () {
     // Listar Tareas del Ingeniero
     router.get('/lista-tareas', authController.usuarioAutenticado, dashboardController.listaTareas);
     // Diagrama de Gantt
-    router.get('/diagrama-gantt', authController.usuarioAutenticado, dashboardController.diagramaGantt);
-    router.get('/diagrama-gantt/data', authController.usuarioAutenticado, dashboardController.diagramaGanttData);
+    router.get('/diagrama-gantt', dashboardController.diagramaGantt);
+    router.get('/diagrama-gantt/data', dashboardController.diagramaGanttData);
 
     return router;
 };
