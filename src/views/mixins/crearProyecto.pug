@@ -39,4 +39,5 @@ mixin crearProyecto(proyecto = {})
     .campo.enviar
       input(type='submit' value=`${proyecto.nombre ? 'Guardar' : 'Agregar'}` class='boton')
     .campo.enviar
-      a(href=`/proyecto/${proyecto.url}` class="boton") Volver
+      if proyecto.url
+        a(href=`/proyecto/${proyecto.url}` class="boton") Volver

@@ -1,7 +1,0 @@
-POST https://periscope.caida.org/api/v2/measurement
-
-Content-Type: application/json; charset=UTF-8
-X-Public: armando_quiroga_claro_com_pe
-X-Hash: izdMmepcbF28DneaHRbAi6ed95TprEsVLai6WCyljpk=
-
-{"command": "traceroute", "hosts": [{"asn": 64496, "router": "r1-newyork"}, {"asn": 64496, "router": "r2-paris"}, {"asn": 64496, "router": "r3-london"}, {"asn": 65537, "router": "lax001.example.net"}, {"asn": 65550, "router": 0}], "name": "example1", "argument": "192.51.100.7"}

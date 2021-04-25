@@ -225,7 +225,8 @@ exports.diagramaGanttData = async (req, res) => {
     let items = {
       id: `p_${proyecto.id}`,
       text: proyecto.nombre,
-      "type": "project",
+      type: "project",
+      order: "50",
       start_date: proyecto.time_begin.format("DD-MM-YYYY"),
       duration: Math.abs(proyecto.time_end - proyecto.time_begin) / (1000 * 60 * 60 * 24),
       progress: proyecto.avance / 100,
@@ -244,7 +245,7 @@ exports.diagramaGanttData = async (req, res) => {
         let items = {
           id: `t_${tarea.id}`,
           text: tarea.nombre,
-          "type": "project",
+          type: "project",
           user,
           start_date: tarea.time_begin.format("DD-MM-YYYY"),
           duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
