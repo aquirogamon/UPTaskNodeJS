@@ -65,7 +65,7 @@ exports.listaTareas = async (req, res) => {
       },
       include: {
         model: Tareas,
-        as: "tareas",
+        as: "usuariosTareas",
         attributes: ["id", "nombre", "estado", "url_tarea", "prioridad"],
         include: {
           model: Proyectos,
@@ -85,7 +85,7 @@ exports.listaTareas = async (req, res) => {
     var tareasUsuario = await Usuarios.findByPk(usuario.id, {
       include: [{
         model: Tareas,
-        as: "tareas",
+        as: "usuariosTareas",
         attributes: ["id", "nombre", "estado", "url_tarea", "prioridad"],
         through: {
           attributes: [],
@@ -174,9 +174,14 @@ exports.diagramaGanttData = async (req, res) => {
       },
       include: {
         model: Tareas,
-        include: {
-          model: SubTareas,
-        },
+        include: [{
+            model: SubTareas,
+          },
+          {
+            model: Usuarios,
+            as: "usuariosTareas"
+          }
+        ]
       },
     })
     proyectosUsuario = proyectosJefe;
@@ -184,7 +189,7 @@ exports.diagramaGanttData = async (req, res) => {
     var proyectosUsuarioDB = await Usuarios.findByPk(usuario.id, {
       include: [{
         model: Proyectos,
-        as: "proyectos",
+        as: "usuariosProyectos",
         attributes: [
           "id",
           "nombre",
@@ -198,14 +203,21 @@ exports.diagramaGanttData = async (req, res) => {
         },
         include: {
           model: Tareas,
-          include: {
-            model: SubTareas,
-          },
+          include: [{
+              model: SubTareas,
+            },
+            {
+              model: Usuarios,
+              as: "usuariosTareas"
+            }
+          ]
         },
       }, ],
     });
     proyectosUsuario = proyectosUsuarioDB.proyectos
+    console.log(proyectosUsuarioDB)
   }
+
 
   let listaProyectos = [];
   const proyectosALL = proyectosUsuario;
@@ -220,9 +232,16 @@ exports.diagramaGanttData = async (req, res) => {
     listaProyectos.push(items);
     const tareasALL = proyecto.tareas;
     tareasALL.forEach((tarea) => {
+      if (tarea.usuarios.length) {
+        user = tarea.usuarios[0].id
+      } else {
+        user = 0
+      }
+
       let items = {
         id: `t_${tarea.id}`,
         text: tarea.nombre,
+        user,
         start_date: tarea.time_begin.format("DD-MM-YYYY"),
         duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
         progress: tarea.avance / 100,
@@ -247,6 +266,22 @@ exports.diagramaGanttData = async (req, res) => {
     data: listaProyectos
   });
 };
+
+exports.diagramaGanttUser = async (req, res) => {
+  let listaUsuarios = [{
+    key: 0,
+    label: "N/A"
+  }];
+  const usuariosALL = await Usuarios.findAll();
+  usuariosALL.forEach((usuario) => {
+    let items = {
+      key: usuario.id,
+      label: usuario.nombre
+    };
+    listaUsuarios.push(items);
+  })
+  res.send(listaUsuarios);
+}
 
 exports.diagramaGantt = async (req, res) => {
   const usuarioAd = res.locals.usuario.sAMAccountName;

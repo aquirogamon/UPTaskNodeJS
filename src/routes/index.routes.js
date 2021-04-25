@@ -87,6 +87,7 @@ module.exports = function () {
     // Diagrama de Gantt
     router.get('/diagrama-gantt', authController.usuarioAutenticado, dashboardController.diagramaGantt);
     router.get('/diagrama-gantt/data', authController.usuarioAutenticado, dashboardController.diagramaGanttData);
+    router.get('/diagrama-gantt/users', authController.usuarioAutenticado, dashboardController.diagramaGanttUser);
 
     return router;
 };

@@ -7,12 +7,12 @@ block contenido
     else
       h1#estadoproyecto(data-estadoproyecto="0") #{nombrePagina} - #{proyecto.nombre}
     h2 Ingenieros Asignados:
-    if usuarioPrincipal.length
-      h3 Ing: #{usuarioPrincipal[0].nombre}
+    if usuarioPrincipal.dataValues
+      h3 Ing: #{usuarioPrincipal.dataValues.nombre}
     else
       h3 Por asignar
-    if usuarioRespaldo.length == 2
-      h3 Ing: #{usuarioRespaldo[1].nombre}
+    if usuarioRespaldo.dataValues
+      h3 Ing: #{usuarioRespaldo.dataValues.nombre}
     else
       h3 Por asignar
     h2 Inicio: #{fecha_inicio} <> Fin: #{fecha_fin}

@@ -50,15 +50,19 @@ exports.tareaPorUrl = async (req, res) => {
   const tareaIng = await Tareas.findByPk(tarea.id, {
     include: [{
       model: Usuarios,
-      as: "usuarios",
+      as: "usuariosTareas",
       attributes: ["nombre", "role"],
       through: {
         attributes: [],
       }
     }, ],
   });
-  const usuarioPrincipal = tareaIng.usuarios;
-  const usuarioRespaldo = tareaIng.usuarios;
+  const usuarioPrincipal = {
+    ...tareaIng.usuariosTareas[0]
+  } || null;
+  const usuarioRespaldo = {
+    ...tareaIng.usuariosTareas[1]
+  } || null;
 
   const groupByEstadoYear = nest(proyectos, ['estado', 'year']);
 

@@ -49,23 +49,23 @@ exports.agregarTarea = async (req, res) => {
       proyectos
     })
   } else if (!time_begin || !time_end) {
-    await Tareas.create({
+    tarea = await Tareas.create({
       nombre,
       proyectoId,
     });
     if (ingenieros) {
-      tarea.setUsuarios(ingenieros);
+      tarea.setUsuariosTareas(ingenieros);
     }
     res.redirect(`/proyecto/${url}`);
   } else {
-    await Tareas.create({
+    tarea = await Tareas.create({
       nombre,
       time_begin,
       time_end,
       proyectoId,
     });
     if (ingenieros) {
-      tarea.setUsuarios(ingenieros);
+      tarea.setUsuariosTareas(ingenieros);
     }
     res.redirect(`/proyecto/${url}`);
   }
@@ -162,15 +162,19 @@ exports.formularioEditar = async (req, res) => {
   const tareaIng = await Tareas.findByPk(tarea.id, {
     include: [{
       model: Usuarios,
-      as: "usuarios",
+      as: "usuariosTareas",
       attributes: ["id", "nombre", "role"],
       through: {
         attributes: [],
       }
     }, ],
   });
-  const usuarioPrincipal = tareaIng.usuarios;
-  const usuarioRespaldo = tareaIng.usuarios;
+  const usuarioPrincipal = {
+    ...tareaIng.usuariosTareas[0]
+  } || null;
+  const usuarioRespaldo = {
+    ...tareaIng.usuariosTareas[1]
+  } || null;
 
   res.render('editarTarea', {
     nombrePagina: 'Editar Tarea',
@@ -243,7 +247,7 @@ exports.actualizarTarea = async (req, res) => {
     const tarea = await Tareas.findByPk(req.params.id, {
       include: [{
         model: Usuarios,
-        as: "usuarios",
+        as: "usuariosTareas",
         attributes: ["id"],
         through: {
           attributes: [],
@@ -252,32 +256,32 @@ exports.actualizarTarea = async (req, res) => {
     });
 
     if (ingenieros) {
-      tarea.setUsuarios(ingenieros);
+      tarea.setUsuariosTareas(ingenieros);
     }
     res.redirect(`/proyecto/${proyecto.url}/${tarea.url_tarea}`);
   }
 }
 
 exports.cambiarAvanceTarea = async (req, res, next) => {
-    const {
-        avance,
-        id
-    } = req.params;
+  const {
+    avance,
+    id
+  } = req.params;
 
-    const tarea = await Tareas.findOne({
-        where: {
-            id
-        }
-    })
-    // Cambiar Estado
-    let avanceTarea = tarea.avance;
-    if (avanceTarea !== avance) {
-      avanceTarea = avance;
+  const tarea = await Tareas.findOne({
+    where: {
+      id
     }
-    tarea.avance = avanceTarea;
+  })
+  // Cambiar Estado
+  let avanceTarea = tarea.avance;
+  if (avanceTarea !== avance) {
+    avanceTarea = avance;
+  }
+  tarea.avance = avanceTarea;
 
-    const resultado = await tarea.save();
-    if (!resultado) return next();
+  const resultado = await tarea.save();
+  if (!resultado) return next();
 
-    res.status(200).send('Actualizado');
+  res.status(200).send('Actualizado');
 }

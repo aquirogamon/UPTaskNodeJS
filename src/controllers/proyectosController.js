@@ -21,17 +21,17 @@ exports.proyectosHome = async (req, res) => {
     const usuarioAd = res.locals.usuario.sAMAccountName;
     const usuarioLocal = res.locals.usuario.email;
     if (!usuarioAd) {
-      var usuario = await Usuarios.findOne({
-        where: {
-          email: usuarioLocal,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                email: usuarioLocal,
+            },
+        });
     } else {
-      var usuario = await Usuarios.findOne({
-        where: {
-          usuario: usuarioAd,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                usuario: usuarioAd,
+            },
+        });
     }
     const proyectos = await Proyectos.findAll();
 
@@ -62,17 +62,17 @@ exports.formularioProyecto = async (req, res) => {
     const usuarioAd = res.locals.usuario.sAMAccountName;
     const usuarioLocal = res.locals.usuario.email;
     if (!usuarioAd) {
-      var usuario = await Usuarios.findOne({
-        where: {
-          email: usuarioLocal,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                email: usuarioLocal,
+            },
+        });
     } else {
-      var usuario = await Usuarios.findOne({
-        where: {
-          usuario: usuarioAd,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                usuario: usuarioAd,
+            },
+        });
     }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
@@ -114,17 +114,17 @@ exports.nuevoProyecto = async (req, res) => {
     const usuarioAd = res.locals.usuario.sAMAccountName;
     const usuarioLocal = res.locals.usuario.email;
     if (!usuarioAd) {
-      var usuario = await Usuarios.findOne({
-        where: {
-          email: usuarioLocal,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                email: usuarioLocal,
+            },
+        });
     } else {
-      var usuario = await Usuarios.findOne({
-        where: {
-          usuario: usuarioAd,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                usuario: usuarioAd,
+            },
+        });
     }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
@@ -208,7 +208,7 @@ exports.nuevoProyecto = async (req, res) => {
         });
 
         if (ingenieros) {
-            proyecto.setUsuarios(ingenieros);
+            proyecto.setUsuariosProyectos(ingenieros);
         }
 
         res.redirect('/');
@@ -219,17 +219,17 @@ exports.proyectoPorUrl = async (req, res, next) => {
     const usuarioAd = res.locals.usuario.sAMAccountName;
     const usuarioLocal = res.locals.usuario.email;
     if (!usuarioAd) {
-      var usuario = await Usuarios.findOne({
-        where: {
-          email: usuarioLocal,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                email: usuarioLocal,
+            },
+        });
     } else {
-      var usuario = await Usuarios.findOne({
-        where: {
-          usuario: usuarioAd,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                usuario: usuarioAd,
+            },
+        });
     }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
@@ -243,15 +243,19 @@ exports.proyectoPorUrl = async (req, res, next) => {
     const proyectoIng = await Proyectos.findByPk(proyecto.id, {
         include: [{
             model: Usuarios,
-            as: "usuarios",
+            as: "usuariosProyectos",
             attributes: ["nombre", "role"],
             through: {
                 attributes: [],
             }
         }, ],
     });
-    const usuarioPrincipal = proyectoIng.usuarios;
-    const usuarioRespaldo = proyectoIng.usuarios;
+    const usuarioPrincipal = {
+        ...proyectoIng.usuariosProyectos[0]
+    } || null;
+    const usuarioRespaldo = {
+        ...proyectoIng.usuariosProyectos[1]
+    } || null;
 
     // Consultar tareas del Proyecto actual
     const tareas = await Tareas.findAll({
@@ -302,17 +306,17 @@ exports.formularioEditar = async (req, res) => {
     const usuarioAd = res.locals.usuario.sAMAccountName;
     const usuarioLocal = res.locals.usuario.email;
     if (!usuarioAd) {
-      var usuario = await Usuarios.findOne({
-        where: {
-          email: usuarioLocal,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                email: usuarioLocal,
+            },
+        });
     } else {
-      var usuario = await Usuarios.findOne({
-        where: {
-          usuario: usuarioAd,
-        },
-      });
+        var usuario = await Usuarios.findOne({
+            where: {
+                usuario: usuarioAd,
+            },
+        });
     }
     const proyectosPromise = Proyectos.findAll();
     const usuariosPromise = Usuarios.findAll();
@@ -341,7 +345,7 @@ exports.formularioEditar = async (req, res) => {
     const proyectoIng = await Proyectos.findByPk(proyecto.id, {
         include: [{
             model: Usuarios,
-            as: "usuarios",
+            as: "usuariosProyectos",
             attributes: ["id", "nombre", "role"],
             through: {
                 attributes: [],
@@ -349,8 +353,13 @@ exports.formularioEditar = async (req, res) => {
         }, ],
     });
 
-    const usuarioPrincipal = proyectoIng.usuarios;
-    const usuarioRespaldo = proyectoIng.usuarios;
+    const usuarioPrincipal = {
+        ...proyectoIng.usuariosProyectos[0]
+    } || null;
+    console.log(usuarioPrincipal)
+    const usuarioRespaldo = {
+        ...proyectoIng.usuariosProyectos[1]
+    } || null;
 
     res.render('nuevoProyecto', {
         nombrePagina: 'Editar Proyecto',
@@ -414,7 +423,7 @@ exports.actualizarProyecto = async (req, res) => {
         const proyecto = await Proyectos.findByPk(req.params.id, {
             include: [{
                 model: Usuarios,
-                as: "usuarios",
+                as: "usuariosProyectos",
                 attributes: ["id", "nombre", "role"],
                 through: {
                     attributes: [],
@@ -423,13 +432,13 @@ exports.actualizarProyecto = async (req, res) => {
         });
 
         if (ingenieros) {
-            proyecto.setUsuarios(ingenieros);
+            proyecto.setUsuariosProyectos(ingenieros);
         }
 
         const proyectoConIng = await Proyectos.findByPk(req.params.id, {
             include: [{
                 model: Usuarios,
-                as: "usuarios",
+                as: "usuariosProyectos",
                 attributes: ["id", "nombre", "role"],
                 through: {
                     attributes: [],

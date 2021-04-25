@@ -23,25 +23,25 @@ TipoEstados.hasMany(Proyectos);
 
 Proyectos.belongsToMany(Usuarios, {
   through: 'usuarios_proyectos',
-  as: "usuarios",
+  as: "usuariosProyectos",
   foreignKey: 'proyecto_id',
   otherKey: 'usuario_id'
 })
 Usuarios.belongsToMany(Proyectos, {
   through: 'usuarios_proyectos',
-  as: "proyectos",
+  as: "usuariosProyectos",
   foreignKey: 'usuario_id',
   otherKey: 'proyecto_id'
 })
 Tareas.belongsToMany(Usuarios, {
   through: 'usuarios_tareas',
-  as: "usuarios",
+  as: "usuariosTareas",
   foreignKey: 'tarea_id',
   otherKey: 'usuario_id'
 })
 Usuarios.belongsToMany(Tareas, {
   through: 'usuarios_tareas',
-  as: "tareas",
+  as: "usuariosTareas",
   foreignKey: 'usuario_id',
   otherKey: 'tarea_id'
 })

@@ -14,8 +14,8 @@ mixin crearProyecto(proyecto = {})
       select(name='ingeniero_principal')
         option(selected='') Seleccione al 1er Ingeniero
         each usuario in usuarios
-          if(usuarioPrincipal.length)
-            option(value= usuario.id, selected=usuarioPrincipal[0].id == usuario.id ? true : false) #{usuario.nombre}
+          if(usuarioPrincipal.dataValues)
+            option(value= usuario.id, selected=usuarioPrincipal.dataValues.id == usuario.id ? true : false) #{usuario.nombre}
           else
             option(value= usuario.id) #{usuario.nombre}
     .campo
@@ -23,8 +23,8 @@ mixin crearProyecto(proyecto = {})
       select(name='ingeniero_secundario')
         option(selected='') Seleccione al 2do Ingeniero
         each usuario in usuarios
-          if (usuarioRespaldo.length == 2)
-            option(value= usuario.id, selected=usuarioRespaldo[1].id == usuario.id ? true : false) #{usuario.nombre}
+          if (usuarioRespaldo.dataValues)
+            option(value= usuario.id, selected=usuarioRespaldo.dataValues.id == usuario.id ? true : false) #{usuario.nombre}
           else
             option(value= usuario.id) #{usuario.nombre}
     .campo
