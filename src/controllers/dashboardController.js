@@ -225,6 +225,7 @@ exports.diagramaGanttData = async (req, res) => {
     let items = {
       id: `p_${proyecto.id}`,
       text: proyecto.nombre,
+      "type": "project",
       start_date: proyecto.time_begin.format("DD-MM-YYYY"),
       duration: Math.abs(proyecto.time_end - proyecto.time_begin) / (1000 * 60 * 60 * 24),
       progress: proyecto.avance / 100,
@@ -232,22 +233,38 @@ exports.diagramaGanttData = async (req, res) => {
     listaProyectos.push(items);
     const tareasALL = proyecto.tareas;
     tareasALL.forEach((tarea) => {
-      if (tarea.usuarios.length) {
-        user = tarea.usuarios[0].id
+      if (tarea.usuariosTareas.length) {
+        user = tarea.usuariosTareas[0].id
       } else {
         user = 0
       }
 
-      let items = {
-        id: `t_${tarea.id}`,
-        text: tarea.nombre,
-        user,
-        start_date: tarea.time_begin.format("DD-MM-YYYY"),
-        duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
-        progress: tarea.avance / 100,
-        parent: `p_${tarea.proyectoId}`,
-      };
-      listaProyectos.push(items);
+      // Validar si la Tarea tiene SubTareas para agregarle el type
+      if (tarea.subtareas.length) {
+        let items = {
+          id: `t_${tarea.id}`,
+          text: tarea.nombre,
+          "type": "project",
+          user,
+          start_date: tarea.time_begin.format("DD-MM-YYYY"),
+          duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
+          progress: tarea.avance / 100,
+          parent: `p_${tarea.proyectoId}`,
+        };
+        listaProyectos.push(items);
+      } else {
+        let items = {
+          id: `t_${tarea.id}`,
+          text: tarea.nombre,
+          user,
+          start_date: tarea.time_begin.format("DD-MM-YYYY"),
+          duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
+          progress: tarea.avance / 100,
+          parent: `p_${tarea.proyectoId}`,
+        };
+        listaProyectos.push(items);
+      }
+
       const subtareasALL = tarea.subtareas;
       subtareasALL.forEach((subtarea) => {
         let items = {
