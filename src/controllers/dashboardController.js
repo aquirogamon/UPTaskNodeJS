@@ -215,7 +215,6 @@ exports.diagramaGanttData = async (req, res) => {
       }, ],
     });
     proyectosUsuario = proyectosUsuarioDB.proyectos
-    console.log(proyectosUsuarioDB)
   }
 
 
@@ -237,7 +236,7 @@ exports.diagramaGanttData = async (req, res) => {
       if (tarea.usuariosTareas.length) {
         user = tarea.usuariosTareas[0].id
       } else {
-        user = 0
+        user = 3
       }
 
       // Validar si la Tarea tiene SubTareas para agregarle el type
@@ -246,7 +245,10 @@ exports.diagramaGanttData = async (req, res) => {
           id: `t_${tarea.id}`,
           text: tarea.nombre,
           type: "project",
-          user,
+          "owner": [{
+            "resource_id": user,
+            "value": 100
+          }],
           start_date: tarea.time_begin.format("DD-MM-YYYY"),
           duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
           progress: tarea.avance / 100,
@@ -257,7 +259,10 @@ exports.diagramaGanttData = async (req, res) => {
         let items = {
           id: `t_${tarea.id}`,
           text: tarea.nombre,
-          user,
+          "owner": [{
+            "resource_id": user,
+            "value": 100
+          }],
           start_date: tarea.time_begin.format("DD-MM-YYYY"),
           duration: Math.abs(tarea.time_end - tarea.time_begin) / (1000 * 60 * 60 * 24),
           progress: tarea.avance / 100,
@@ -286,18 +291,38 @@ exports.diagramaGanttData = async (req, res) => {
 };
 
 exports.diagramaGanttUser = async (req, res) => {
+  // let listaUsuarios = [{
+  //   key: 0,
+  //   label: "N/A"
+  // }];
   let listaUsuarios = [{
-    key: 0,
-    label: "N/A"
+    id: 1,
+    text: "Ingenieros",
+    parent: null
+  }, {
+    id: 2,
+    text: "Other",
+    parent: null
+  }, {
+    id: 3,
+    text: "Unassigned",
+    parent: 2,
+    default: true
   }];
   const usuariosALL = await Usuarios.findAll();
   usuariosALL.forEach((usuario) => {
+    // let items = {
+    //   key: usuario.id,
+    //   label: usuario.nombre
+    // };
     let items = {
-      key: usuario.id,
-      label: usuario.nombre
+      id: 100 + usuario.id,
+      text: usuario.nombre,
+      parent: 1
     };
     listaUsuarios.push(items);
   })
+  console.log('listaUsuarios: ', listaUsuarios)
   res.send(listaUsuarios);
 }
 

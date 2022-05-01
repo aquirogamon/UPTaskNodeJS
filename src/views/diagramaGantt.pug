@@ -4,19 +4,9 @@ html(lang="en")
     include partials/header
     title= nombrePagina
     meta(http-equiv='Content-type' content='text/html; charset=utf-8')
-    link(rel="stylesheet", href="/css/gantt.css")
-    style.
-      html, body {
-      padding: 0px;
-      margin: 0px;
-      height: 100%;
-      }
-      .gantt_grid_scale .gantt_grid_head_cell,
-      .gantt_task .gantt_task_scale .gantt_scale_cell {
-      font-weight: bold;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.7);
-      }
+    link(rel="stylesheet", href="/css/dhtmlxgantt.css")
+    link(rel="stylesheet", href="/css/controls_styles.css")
+    link(rel="stylesheet", href="/css/gantt_customer.css")
 
   //- TODO: Revisar el listado por Role.
   body.body-pd
@@ -41,7 +31,10 @@ html(lang="en")
           li
             a(href="/cerrar-sesion") Cerrar Sesión
 
-    #gantt_here.gantt_main
-    script(src='dhtmlxgantt.js')
+    .gantt_control
+      input#default(type='button' onclick='toggleGroups(this)' value='Show Resource view')
+    #gantt_here
+    script(src='/js/utils/dhtmlxgantt.js')
+    script(src='/js/utils/resource_filter.js')
     script(src="/dist/bundle.js")
     script(type='text/javascript')
